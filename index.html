@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Die Wespenexperten — Wespen, Hornissen, Hummeln in DE & DK</title>
+<style>
+:root {
+  --bg: #FBF8F2;
+  --card: #FFFFFF;
+  --text: #1A1A1A;
+  --muted: #6B6B6B;
+  --border: #EAE3D6;
+  --accent: #F0C808;
+  --accent-dark: #B89200;
+  --green: #25D366;
+  --blue: #007AFF;
+  --shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+html, body { overflow-x: hidden; max-width: 100%; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-wrap: break-word;
+}
+
+/* Bilder nie breiter als der Bildschirm */
+img { max-width: 100%; height: auto; }
+
+/* Lange Wörter (z. B. „Langkopfwespenvolks") sauber umbrechen statt überlaufen */
+h1, h2, h3, h4, p, a, li { overflow-wrap: break-word; hyphens: auto; }
+
+/* Sprachumschaltung */
+html[lang="de"] [data-da], html[lang="de"] [data-en] { display: none; }
+html[lang="da"] [data-de], html[lang="da"] [data-en] { display: none; }
+html[lang="en"] [data-de], html[lang="en"] [data-da] { display: none; }
+
+/* Layout */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Header */
+header {
+  position: sticky;
+  top: 0;
+  background: rgba(251, 248, 242, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  z-index: 100;
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 16px 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.logo { margin-right: auto; }
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 900;
+  font-size: 2rem;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.logo .accent { color: var(--accent); }
+.logo-icon { height: 40px; width: auto; display: block; flex-shrink: 0; }
+@media (max-width: 800px) {
+  .logo { font-size: 1.5rem; gap: 8px; }
+  .logo-icon { height: 30px; }
+}
+@media (max-width: 480px) {
+  .logo { font-size: 1.2rem; gap: 6px; }
+  .logo-icon { height: 26px; }
+  .header-inner { gap: 12px; }
+  .lang-switch { gap: 3px; }
+  .lang-switch button { padding: 5px 8px; font-size: 0.75rem; }
+}
+
+.lang-switch { display: flex; gap: 4px; flex-shrink: 0; }
+.lang-switch button {
+  background: transparent;
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 6px;
+  color: var(--muted);
+  font-family: inherit;
+}
+.lang-switch button:hover { color: var(--text); border-color: var(--accent); }
+html[lang="de"] .lang-switch button[data-set="de"],
+html[lang="da"] .lang-switch button[data-set="da"],
+html[lang="en"] .lang-switch button[data-set="en"] {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+/* Navigation */
+.logo { color: inherit; text-decoration: none; }
+.nav { display: flex; align-items: center; gap: 22px; }
+.nav > a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+.nav > a:hover { color: var(--accent-dark); }
+
+/* Hamburger-Button */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  padding: 9px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 110;
+}
+.nav-toggle span {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+.nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+.nav-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  opacity: 0;
+  transition: opacity 0.28s ease;
+  z-index: 80;
+}
+.nav-backdrop.open { display: block; opacity: 1; }
+
+@media (max-width: 1100px) {
+  .nav-toggle { display: flex; }
+  .nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: min(82vw, 300px);
+    background: var(--bg);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 92px 28px 28px;
+    box-shadow: -4px 0 24px rgba(0,0,0,0.14);
+    transform: translateX(100%);
+    transition: transform 0.28s ease;
+    z-index: 90;
+    overflow-y: auto;
+  }
+  .nav.open { transform: translateX(0); }
+  .nav > a { font-size: 1.15rem; }
+}
+
+/* Hero */
+.hero {
+  padding: 80px 0 60px;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+.hero h1 {
+  font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+.hero h1 .accent { color: var(--accent); }
+.hero .sub {
+  font-size: 1.15rem;
+  color: var(--muted);
+  margin-bottom: 32px;
+  max-width: 520px;
+}
+.hero .ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 22px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: transform 0.1s, box-shadow 0.2s;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+.btn:active { transform: scale(0.98); }
+.btn-primary { background: var(--accent); color: white; }
+.btn-primary:hover { background: var(--accent-dark); }
+.btn-whatsapp { background: var(--green); color: white; }
+.btn-sms { background: var(--blue); color: white; }
+.btn-secondary { background: white; color: var(--text); border: 1px solid var(--border); }
+.btn-mobilepay { background: #5A78FF; color: white; }
+.btn-mobilepay:hover { background: #4862d6; }
+
+/* MobilePay / Bezahlung */
+.pay { background: #FFFCF7; }
+.pay-card {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  flex-wrap: wrap;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: var(--shadow);
+  max-width: 760px;
+  margin: 24px auto 0;
+}
+.pay-qr {
+  width: 200px;
+  height: 200px;
+  flex-shrink: 0;
+  background: white;
+  border-radius: 12px;
+}
+.pay-info { flex: 1; min-width: 240px; }
+.pay-info p { color: #2A2419; margin-bottom: 16px; }
+.pay-info .muted { color: var(--muted); font-size: 0.95rem; }
+@media (max-width: 640px) {
+  .pay-card { flex-direction: column; text-align: center; padding: 24px; }
+  .pay-info .ctas { justify-content: center; }
+}
+
+.hero-image {
+  aspect-ratio: 4/5;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f5e6d0, #e8d4ad);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-size: 0.9rem;
+  box-shadow: var(--shadow);
+}
+.hero-image[data-src] { background-image: var(--bg-img); }
+.hero-caption {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-top: 8px;
+}
+.hero-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.hero-credit {
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-align: right;
+  font-style: italic;
+}
+
+/* Banner */
+.banner {
+  background: var(--accent);
+  color: white;
+  padding: 22px 0;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+.banner .sep { opacity: 0.6; margin: 0 14px; }
+
+/* Sections */
+section.block { padding: 80px 0; }
+section.block h2 {
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin-bottom: 36px;
+  line-height: 1.15;
+}
+section.block .lead { font-size: 1.15rem; color: var(--muted); max-width: 700px; margin-bottom: 32px; }
+
+/* Service-Kacheln */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.service-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px;
+  box-shadow: var(--shadow);
+}
+.service-card .service-img {
+  width: 100%;
+  aspect-ratio: 16/10;
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 16px;
+  background-color: #EEE;
+}
+.service-card h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; }
+.service-card .price {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: 14px;
+}
+.service-card p { color: var(--muted); font-size: 0.97rem; }
+
+/* Garantie */
+.guarantee {
+  background: #2A2419;
+  color: white;
+  padding: 60px 0;
+  text-align: center;
+}
+.guarantee h2 {
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
+  margin-bottom: 16px;
+  color: white;
+}
+.guarantee p { font-size: 1.15rem; max-width: 700px; margin: 0 auto; opacity: 0.92; }
+
+/* Philosophie */
+.philosophy { background: #FFFCF7; }
+.philosophy-content { max-width: 760px; }
+.philosophy-content h2 { margin-bottom: 24px; }
+.philosophy-content p { font-size: 1.1rem; margin-bottom: 18px; color: #2A2419; }
+.philosophy-content .highlight { font-weight: 700; font-size: 1.25rem; color: var(--accent-dark); }
+
+/* Prozess */
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.process-step {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px;
+  position: relative;
+}
+.process-step .num {
+  width: 36px; height: 36px;
+  background: var(--accent);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.process-step h4 { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; }
+.process-step p { font-size: 0.95rem; color: var(--muted); }
+
+/* Aufklärungs-Karten */
+.edu-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  max-width: 900px;
+}
+.edu-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 32px;
+  box-shadow: var(--shadow);
+}
+.edu-card h3 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+.edu-card .subtitle {
+  color: var(--accent-dark);
+  font-weight: 600;
+  margin-bottom: 18px;
+  font-size: 0.95rem;
+}
+.edu-card p { margin-bottom: 12px; color: #2A2419; }
+.edu-card strong { color: var(--text); }
+.edu-card .key {
+  background: #FFF7E6;
+  border-left: 3px solid var(--accent);
+  padding: 14px 18px;
+  margin: 18px 0 0;
+  font-size: 0.97rem;
+  border-radius: 0 8px 8px 0;
+}
+
+/* Galerie */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.gallery-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.gallery-item .img-wrap {
+  aspect-ratio: 1/1;
+  background: linear-gradient(135deg, #f0e1c8, #ddc89a);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-size: 0.78rem;
+  text-align: center;
+  padding: 10px;
+}
+.gallery-item .caption {
+  padding: 14px 16px 18px;
+  font-size: 0.92rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+@media (max-width: 800px) {
+  .gallery-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+}
+
+/* Bio */
+.bio-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 48px;
+  align-items: start;
+}
+.bio-photo {
+  aspect-ratio: 4/5;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #d8c4a5, #b89a6f);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 4rem;
+  font-weight: 700;
+  background-size: cover;
+  background-position: center;
+  box-shadow: var(--shadow);
+}
+.bio-text h2 { margin-bottom: 20px; }
+.bio-text p { margin-bottom: 18px; color: #2A2419; }
+.bio-text .pull { font-size: 1.2rem; font-weight: 700; color: var(--accent-dark); }
+.bio-text .note { font-style: italic; color: var(--muted); font-size: 0.98rem; margin-top: 8px; }
+
+/* FAQ */
+.faq-list { max-width: 800px; }
+.faq-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.faq-item summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 20px 24px;
+  font-weight: 600;
+  font-size: 1.02rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: "+";
+  font-size: 1.5rem;
+  color: var(--accent);
+  font-weight: 400;
+  transition: transform 0.2s;
+}
+.faq-item[open] summary::after { content: "−"; }
+.faq-item .answer {
+  padding: 0 24px 22px;
+  color: #333;
+}
+
+/* Kontakt / Footer */
+footer {
+  background: #1A1A1A;
+  color: #DDD;
+  padding: 60px 0 30px;
+}
+footer h3 { color: white; margin-bottom: 16px; font-size: 1.1rem; }
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 36px;
+  margin-bottom: 40px;
+}
+footer a { color: #DDD; text-decoration: none; }
+footer a:hover { color: var(--accent); }
+.footer-bottom {
+  border-top: 1px solid #333;
+  padding-top: 20px;
+  font-size: 0.85rem;
+  color: #888;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Rechtliches (Impressum, Datenschutz) */
+.legal {
+  background: #F5F0E5;
+  padding: 60px 0;
+  font-size: 0.95rem;
+  color: #2A2419;
+}
+.legal h2 { font-size: 1.6rem; margin-bottom: 16px; }
+.legal h3 { font-size: 1.1rem; margin: 20px 0 6px; }
+.legal p { margin-bottom: 10px; }
+.placeholder {
+  background: #FFF3CD;
+  border-left: 3px solid #E68A19;
+  padding: 12px 16px;
+  margin: 12px 0;
+  font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 800px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero { padding: 50px 0 30px; }
+  .hero-image { aspect-ratio: 3/2; max-height: 360px; }
+  .services-grid { grid-template-columns: 1fr; }
+  .process-grid { grid-template-columns: 1fr 1fr; }
+  .bio-grid { grid-template-columns: 1fr; }
+  .bio-photo { max-width: 280px; margin: 0 auto; }
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  section.block { padding: 50px 0; }
+  .banner { font-size: 0.95rem; padding: 18px 16px; }
+  .banner .sep { display: block; margin: 4px 0; opacity: 0; height: 0; }
+}
+</style>
+</head>
+<body id="top">
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a class="logo" href="#top">
+      <img src="images/logo-wespe.png" alt="Wespen-Symbol" class="logo-icon">
+      <span data-de>Die <span class="accent">Wespen</span>experten</span>
+      <span data-da>Hvepse<span class="accent">eksperterne</span></span>
+      <span data-en>The <span class="accent">Wasp</span> Experts</span>
+    </a>
+    <nav class="nav" id="nav">
+      <a href="#ueber-juergen" onclick="closeNav()"><span data-de>Über uns</span><span data-da>Om os</span><span data-en>About</span></a>
+      <a href="#leistungen" onclick="closeNav()"><span data-de>Leistungen</span><span data-da>Ydelser</span><span data-en>Services</span></a>
+      <a href="#wespen-verstehen" onclick="closeNav()"><span data-de>Wespen verstehen</span><span data-da>Forstå hvepse</span><span data-en>Understanding wasps</span></a>
+      <a href="#ablauf" onclick="closeNav()"><span data-de>Ablauf</span><span data-da>Sådan foregår det</span><span data-en>How it works</span></a>
+      <a href="#faq" onclick="closeNav()"><span data-de>FAQ</span><span data-da>FAQ</span><span data-en>FAQ</span></a>
+      <a href="#bezahlen" onclick="closeNav()">MobilePay</a>
+    </nav>
+    <div class="lang-switch">
+      <button data-set="de" onclick="setLang('de')">DE</button>
+      <button data-set="da" onclick="setLang('da')">DA</button>
+      <button data-set="en" onclick="setLang('en')">EN</button>
+    </div>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menü" aria-expanded="false" aria-controls="nav" onclick="toggleNav()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+<div class="nav-backdrop" id="nav-backdrop" onclick="closeNav()"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <h1>
+          <span data-de>Wespen, Hornissen, Hummeln — wir lösen das Problem <span class="accent">ohne zu töten.</span></span>
+          <span data-da>Hvepse, gedehamse, humlebier — vi løser problemet <span class="accent">uden at dræbe.</span></span>
+          <span data-en>Wasps, hornets, bumblebees — we solve the problem <span class="accent">without killing.</span></span>
+        </h1>
+        <p class="sub">
+          <span data-de>Umsiedlung, Aufklärung, im Notfall fachgerechte Bekämpfung. Seit 1992 in Norddeutschland — und nun auch in Süddänemark.</span>
+          <span data-da>Flytning, oplysning, fagkyndig bekæmpelse kun i nødstilfælde. Siden 1992 i det nordlige Tyskland — og nu også i Sønderjylland.</span>
+          <span data-en>Relocation, education and — only in emergencies — professional control. Since 1992 in Northern Germany, and now also in Southern Denmark.</span>
+        </p>
+        <div class="ctas">
+          <a class="btn btn-primary" href="tel:+491739316539">📞 +49 173 9316539 (DE)</a>
+          <a class="btn btn-whatsapp" href="https://wa.me/491739316539" data-de>💬 WhatsApp (DE)</a>
+          <a class="btn btn-whatsapp" href="https://wa.me/491739316539" data-en>💬 WhatsApp (DE)</a>
+          <a class="btn btn-primary" href="tel:+4560463053">📞 +45 60 46 30 53 (DK)</a>
+          <a class="btn btn-sms" href="sms:+4560463053" data-da>💬 SMS (DK)</a>
+          <a class="btn btn-sms" href="sms:+4560463053" data-en>💬 SMS (DK)</a>
+        </div>
+      </div>
+      <div>
+        <div class="hero-image" id="hero-image">
+          <span data-de>[Skizze einfügen: images/juergen-skizze.jpg]</span>
+          <span data-da>[Skizze indsæt: images/juergen-skizze.jpg]</span>
+          <span data-en>[Insert sketch: images/juergen-skizze.jpg]</span>
+        </div>
+        <div class="hero-caption">
+          <span class="hero-name">Jürgen Hanika</span>
+          <span class="hero-credit">© Cristina Gurrea Hernández</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BANNER -->
+<div class="banner">
+  <span data-de>Seit 1992 für euch da <span class="sep">·</span> DE + DK <span class="sep">·</span> Ruf an — wir sind dran oder melden uns schnell</span>
+  <span data-da>Siden 1992 for dig <span class="sep">·</span> DK + DE <span class="sep">·</span> Ring — vi tager den eller ringer hurtigt tilbage</span>
+  <span data-en>Here for you since 1992 <span class="sep">·</span> DE + DK <span class="sep">·</span> Call us — we'll answer or get back to you fast</span>
+</div>
+
+<!-- BIO -->
+<section class="block" id="ueber-juergen" style="background: #FFFCF7;">
+  <div class="container">
+    <div class="bio-grid">
+      <div class="bio-photo" id="bio-photo">JH</div>
+      <div class="bio-text">
+        <h2>
+          <span data-de>Ich bin Jürgen Hanika!</span>
+          <span data-da>Jeg er Jürgen Hanika!</span>
+          <span data-en>I'm Jürgen Hanika!</span>
+        </h2>
+        <p data-de>Seit 34 Jahren beschäftige ich mich täglich mit Wespen, Hornissen und Hummeln. Gegründet habe ich „Die Wespenexperten" aus einer einfachen Beobachtung:</p>
+        <p data-da>I 34 år har jeg arbejdet dagligt med hvepse, gedehamse og humlebier. Jeg grundlagde „Hvepseeksperterne" ud fra en simpel observation:</p>
+        <p data-en>For 34 years I've worked with wasps, hornets and bumblebees every day. I founded "The Wasp Experts" out of a simple observation:</p>
+        <p class="pull">
+          <span data-de>Die meisten Insekten, die als „Schädlinge" gelten, sind keine. Sie sind nur am falschen Ort.</span>
+          <span data-da>De fleste insekter, der bliver kaldt „skadedyr", er det ikke. De er bare på det forkerte sted.</span>
+          <span data-en>Most insects considered "pests" aren't. They're just in the wrong place.</span>
+        </p>
+        <p data-de>Mein Job: den richtigen Ort finden — für das Nest und für die Menschen, die damit leben.</p>
+        <p data-da>Mit job: at finde det rigtige sted — både for reden og for de mennesker, der bor med den.</p>
+        <p data-en>My job: to find the right place — for the nest and for the people living with it.</p>
+        <p class="note" data-de>Inzwischen sind meine Söhne Julian und Merlin mit eigenen Firmen mit dabei — mit Standorten in <strong>Wedel</strong> und <strong>Schmalfeld bei Bad Bramstedt</strong>. Zusammen mit meinen Standorten in <strong>Süddänemark</strong> und <strong>Handewitt</strong> decken wir ganz Schleswig-Holstein, Hamburg und Süddänemark ab.</p>
+        <p class="note" data-da>I dag er mine sønner Julian og Merlin også med — hver med sit eget firma — med kontorer i <strong>Wedel</strong> og <strong>Schmalfeld nær Bad Bramstedt</strong>. Sammen med mine lokationer i <strong>Sønderjylland</strong> og <strong>Handewitt</strong> dækker vi hele Slesvig-Holsten, Hamborg og Sønderjylland.</p>
+        <p class="note" data-en>Today my sons Julian and Merlin are on board too, each with their own company — with locations in <strong>Wedel</strong> and <strong>Schmalfeld near Bad Bramstedt</strong>. Together with my locations in <strong>Southern Denmark</strong> and <strong>Handewitt</strong>, we cover all of Schleswig-Holstein, Hamburg and Southern Denmark.</p>
+        <div class="ctas" style="margin-top: 20px;">
+          <a class="btn btn-secondary" href="https://www.wespenexperte.de" target="_blank" rel="noopener">Die Wespenexperten →</a>
+          <a class="btn btn-secondary" href="https://die-schaedlingsexperten.de" target="_blank" rel="noopener">Die Schädlingsexperten →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="block" id="leistungen">
+  <div class="container">
+    <h2>
+      <span data-de>Drei Spezialgebiete — sonst nichts.</span>
+      <span data-da>Tre specialer — intet andet.</span>
+      <span data-en>Three specialities — nothing else.</span>
+    </h2>
+    <div class="services-grid">
+
+      <div class="service-card">
+        <div class="service-img" style="background-image: url('images/wespe.jpg');"></div>
+        <h3 data-de>Wespen</h3>
+        <h3 data-da>Hvepse</h3>
+        <h3 data-en>Wasps</h3>
+        <div class="price">
+          <span data-de>Festpreis 160 € / 1.250 DKK</span>
+          <span data-da>Fast pris 1.250 DKK / 160 €</span>
+          <span data-en>Fixed price 160 € / 1,250 DKK</span>
+        </div>
+        <p data-de>In den meisten Fällen reicht fachgerechte Entfernung oder Umsiedlung. Tötung nur, wenn anders nicht zu lösen.</p>
+        <p data-da>I de fleste tilfælde er fagkyndig fjernelse eller flytning nok. Aflivning kun, hvis det ikke kan løses anderledes.</p>
+        <p data-en>In most cases professional removal or relocation is enough. Killing only when there is no other way.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-img" style="background-image: url('images/hornisse.jpg');"></div>
+        <h3 data-de>Hornissen</h3>
+        <h3 data-da>Gedehamse</h3>
+        <h3 data-en>Hornets</h3>
+        <div class="price">
+          <span data-de>Preis auf Anfrage</span>
+          <span data-da>Pris efter aftale</span>
+          <span data-en>Price on request</span>
+        </div>
+        <p data-de>Hornissen sind streng geschützt. Wir holen die Genehmigung und siedeln das Nest um — niemals einfach „weg damit".</p>
+        <p data-da>Gedehamse er beskyttede dyr. Vi vurderer hver sag individuelt og flytter reden — aldrig bare „væk med den".</p>
+        <p data-en>Hornets are strictly protected. We obtain the permit and relocate the nest — never just "get rid of it".</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-img" style="background-image: url('images/hummel.jpg');"></div>
+        <h3 data-de>Hummeln</h3>
+        <h3 data-da>Humlebier</h3>
+        <h3 data-en>Bumblebees</h3>
+        <div class="price">
+          <span data-de>Preis auf Anfrage</span>
+          <span data-da>Pris efter aftale</span>
+          <span data-en>Price on request</span>
+        </div>
+        <p data-de>Hummeln stehen unter strengem Naturschutz und werden grundsätzlich umgesiedelt. Wir bringen das Nest sicher an einen neuen Standort.</p>
+        <p data-da>Humlebier er fredede og flyttes altid. Vi bringer humleboet sikkert til en ny placering.</p>
+        <p data-en>Bumblebees are strictly protected and are always relocated. We move the nest safely to a new location.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- GARANTIE -->
+<section class="guarantee">
+  <div class="container">
+    <h2 data-de>Wir helfen garantiert.</h2>
+    <h2 data-da>Vi hjælper garanteret.</h2>
+    <h2 data-en>We help — guaranteed.</h2>
+    <p data-de>Wenn wir nicht weiterhelfen können — durch Entfernen, Umsiedlung, Aufklärung oder Beratung — kostet es dich nichts.</p>
+    <p data-da>Kan vi ikke hjælpe — hverken med fjernelse, flytning, oplysning eller rådgivning — koster det dig intet.</p>
+    <p data-en>If we can't help — through removal, relocation, education or advice — it costs you nothing.</p>
+  </div>
+</section>
+
+<!-- PHILOSOPHIE -->
+<section class="block philosophy">
+  <div class="container">
+    <div class="philosophy-content">
+      <h2>
+        <span data-de>Wespen sind keine Schädlinge.</span>
+        <span data-da>Hvepse er ikke skadedyr.</span>
+        <span data-en>Wasps are not pests.</span>
+      </h2>
+      <p data-de>Wespen, Hornissen und Hummeln sind ein wichtiger Teil unseres Ökosystems. Sie bestäuben Pflanzen, halten andere Insekten in Schach, und ein Wespenstaat lebt nur wenige Monate — im Spätherbst stirbt er ohnehin von allein.</p>
+      <p data-da>Hvepse, gedehamse og humlebier er en vigtig del af vores økosystem. De bestøver planter, holder andre insekter i skak, og en hvepsekoloni lever kun få måneder — om sensommeren dør den af sig selv.</p>
+      <p data-en>Wasps, hornets and bumblebees are an important part of our ecosystem. They pollinate plants, keep other insects in check, and a wasp colony lives only a few months — by late autumn it dies on its own anyway.</p>
+      <p class="highlight">
+        <span data-de>Wir töten nicht. Wir lösen Konflikte.</span>
+        <span data-da>Vi dræber ikke. Vi løser konflikter.</span>
+        <span data-en>We don't kill. We resolve conflicts.</span>
+      </p>
+      <p data-de>Meistens ist Umsiedlung, ein bisschen Geduld oder einfache Aufklärung die bessere Antwort als die Spritze.</p>
+      <p data-da>I de fleste tilfælde er flytning, lidt tålmodighed eller simpel oplysning det bedre svar end sprøjten.</p>
+      <p data-en>Most of the time, relocation, a little patience or simple explanation is the better answer than the spray.</p>
+    </div>
+  </div>
+</section>
+
+<!-- GALERIE -->
+<section class="block" style="background: #FFFCF7;">
+  <div class="container">
+    <h2>
+      <span data-de>Der Anfang: Eine Königin baut allein.</span>
+      <span data-da>Begyndelsen: En dronning bygger alene.</span>
+      <span data-en>The beginning: a queen builds alone.</span>
+    </h2>
+    <p class="lead">
+      <span data-de>Diese Bilder zeigen den Anfang im Frühjahr — wenn die Königin ganz allein ein neues Nest startet. Erst wenn die ersten Arbeiterinnen schlüpfen, übernehmen sie den weiteren Ausbau. Bis zum Spätsommer wächst das Nest dann auf ein Vielfaches dieser Anfangsgröße.</span>
+      <span data-da>Disse billeder viser begyndelsen om foråret — når dronningen ganske alene starter en ny rede. Først når de første arbejdere klækker, overtager de den videre udbygning. Hen mod sensommeren vokser reden til flere gange denne begyndelsesstørrelse.</span>
+      <span data-en>These pictures show the beginning in spring — when the queen starts a new nest entirely on her own. Only once the first workers hatch do they take over building it further. By late summer the nest then grows to many times this initial size.</span>
+    </p>
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <div class="img-wrap" id="wespe-1">[wespe-1.jpg]</div>
+        <div class="caption">
+          <span data-de>Frühjahr: Eine einzelne Königin startet das Nest — die ersten Wabenzellen entstehen, aus zerkautem Holz.</span>
+          <span data-da>Forår: En enkelt dronning starter reden — de første celler bygges, af tygget træ.</span>
+          <span data-en>Spring: a single queen starts the nest — the first comb cells are built, from chewed wood.</span>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <div class="img-wrap" id="wespe-2">[wespe-2.jpg]</div>
+        <div class="caption">
+          <span data-de>Um die Waben baut sie eine schützende Hülle — alles allein, bevor die erste Arbeiterin geschlüpft ist.</span>
+          <span data-da>Omkring cellerne bygger hun en beskyttende skal — alt sammen alene, før den første arbejder klækker.</span>
+          <span data-en>Around the combs she builds a protective shell — all alone, before the first worker has hatched.</span>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <div class="img-wrap" id="wespe-3">[wespe-3.jpg]</div>
+        <div class="caption">
+          <span data-de>Geschützt im Inneren legt sie die ersten Eier ab und kümmert sich um die Larven.</span>
+          <span data-da>Beskyttet i det indre lægger hun de første æg og passer på larverne.</span>
+          <span data-en>Protected inside, she lays the first eggs and cares for the larvae.</span>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <div class="img-wrap" id="wespe-4">[wespe-4.jpg]</div>
+        <div class="caption">
+          <span data-de>So klein ist ein Nest in dieser Phase noch. Sobald die ersten Arbeiterinnen schlüpfen, wächst es binnen Wochen auf ein Vielfaches dieser Größe.</span>
+          <span data-da>Så lille er en rede stadig på dette stadie. Når de første arbejdere klækker, vokser den i løbet af uger til mange gange denne størrelse.</span>
+          <span data-en>This is how small a nest still is at this stage. Once the first workers hatch, it grows to many times this size within weeks.</span>
+        </div>
+      </div>
+    </div>
+    <p style="font-size: 0.85rem; color: var(--muted); margin-top: 28px; text-align: right; font-style: italic;">
+      <span data-de>Quelle: Rolf Witt</span>
+      <span data-da>Kilde: Rolf Witt</span>
+      <span data-en>Source: Rolf Witt</span>
+    </p>
+  </div>
+</section>
+
+<!-- WESPEN VERSTEHEN -->
+<section class="block" id="wespen-verstehen">
+  <div class="container">
+    <h2>
+      <span data-de>Wespen verstehen.</span>
+      <span data-da>Forstå hvepse.</span>
+      <span data-en>Understanding wasps.</span>
+    </h2>
+    <p class="lead">
+      <span data-de>Wer sie kennt, fürchtet sie weniger. Hier ein paar Grundlagen, die wir gerne erklären — bevor jemand zur Spritze greift.</span>
+      <span data-da>Den, der kender dem, frygter dem mindre. Her er nogle grundlæggende ting, vi gerne forklarer — før nogen tyr til sprøjten.</span>
+      <span data-en>Those who know them fear them less. Here are a few basics we're happy to explain — before anyone reaches for the spray.</span>
+    </p>
+
+    <div class="edu-cards">
+
+      <div class="edu-card">
+        <h3 data-de>Der Lebenszyklus eines Langkopfwespenvolks</h3>
+        <h3 data-da>En langhovedet hvepsekolonis livscyklus</h3>
+        <h3 data-en>The life cycle of a long-headed wasp colony</h3>
+        <div class="subtitle">
+          <span data-de>Ende April bis Mitte September — deutlich kürzer als bei den Kurzkopfwespen</span>
+          <span data-da>Slutningen af april til midten af september — markant kortere end korthovedede hvepse</span>
+          <span data-en>End of April to mid-September — considerably shorter than the short-headed wasps</span>
+        </div>
+        <p data-de>Soziale Wespen (Faltenwespen) bilden Staaten, die nur etwa ein halbes Jahr leben. Im Frühling — je nach Region und Art ab Anfang Mai — wacht die Königin aus ihrer Winterstarre auf und gründet ein neues Volk.</p>
+        <p data-de>Jede aufgewachte Königin beginnt <strong>ganz allein</strong>, ein kunstvolles Nest zu bauen: erste Waben aus zerkautem Holz, in die sie die ersten Eier legt. Die Waben öffnen sich nach unten.</p>
+        <p data-de>Aus den Eiern schlüpfen Larven, die mit Beute — vor allem Insekten — gefüttert werden. Nach etwa zwei Wochen spinnen sie einen Seidendeckel über ihre Zelle und verpuppen sich. Weitere zwei Wochen später schlüpfen die ersten Arbeiterinnen (sterile Weibchen) und übernehmen den Nestbau. Die Königin kümmert sich danach nur noch ums Eierlegen.</p>
+        <p data-de>Je nach Art zieht der Staat zwischen Juni und August Männchen und neue Königinnen heran. Die Produktion von Arbeiterinnen kommt dabei zum Erliegen. <strong>Im August erreicht das Volk seinen Höhepunkt.</strong></p>
+        <p data-de>Danach beginnt das Sterben: Nahrungsmangel und sinkende Temperaturen führen dazu, dass zwischen Anfang September und Mitte Oktober alle Wespen ausgestorben sind — auch die alte Königin. Übrig bleiben nur die jungen, begatteten Königinnen.</p>
+        <p data-de>Diese suchen ein Überwinterungsversteck (Ritzen, Erdlöcher, Totholz) und gründen im nächsten Frühjahr ein neues Volk. Aber: Nur etwa <strong>eine von zehn</strong> Königinnen überlebt den Winter und schafft es, ein Nest zu gründen.</p>
+        <div class="key" data-de>Das alte Nest bleibt im Herbst verlassen und wird im nächsten Jahr nicht wieder bezogen. Möglich ist allerdings, dass eine junge Königin im Frühjahr denselben Standort wählt.</div>
+
+        <p data-da>Sociale hvepse (foldevinge-hvepse) danner kolonier, der kun lever omkring et halvt år. Om foråret — afhængigt af region og art fra begyndelsen af maj — vågner dronningen op af sin vinterdvale og grundlægger et nyt folk.</p>
+        <p data-da>Hver opvågnet dronning begynder <strong>helt alene</strong> at bygge en kunstfærdig rede: de første celler af tygget træ, hvor hun lægger de første æg. Cellerne åbner sig nedad.</p>
+        <p data-da>Af æggene klækker larver, som fodres med bytte — især insekter. Efter cirka to uger spinder de et silkelåg over deres celle og forpupper sig. To uger senere klækker de første arbejdere (sterile hunner) og overtager redebygningen. Dronningen koncentrerer sig herefter udelukkende om at lægge æg.</p>
+        <p data-da>Afhængigt af arten begynder kolonien mellem juni og august at opdrætte hanner og nye dronninger. Produktionen af arbejdere går i stå. <strong>I august når folket sit populationsmaksimum.</strong></p>
+        <p data-da>Derefter begynder døden: Fødemangel og faldende temperaturer betyder, at alle hvepse mellem begyndelsen af september og midten af oktober er døde — også den gamle dronning. Kun de unge, parrede dronninger overlever.</p>
+        <p data-da>De søger et overvintringssted (sprækker, jordhuller, dødt træ) og grundlægger næste forår en ny koloni. Men: Kun cirka <strong>én ud af ti</strong> dronninger overlever vinteren og lykkes med at grundlægge en rede.</p>
+        <div class="key" data-da>Den gamle rede forlades om efteråret og genbruges ikke næste år. Det er dog muligt, at en ung dronning næste forår vælger nøjagtig samme placering.</div>
+
+        <p data-en>Social wasps (paper wasps) form colonies that live only about half a year. In spring — depending on region and species, from early May — the queen wakes from her winter dormancy and founds a new colony.</p>
+        <p data-en>Each awakened queen begins <strong>entirely alone</strong> to build an intricate nest: the first combs from chewed wood, in which she lays the first eggs. The combs open downwards.</p>
+        <p data-en>Larvae hatch from the eggs and are fed with prey — mainly insects. After about two weeks they spin a silk lid over their cell and pupate. Another two weeks later the first workers (sterile females) hatch and take over building the nest. After that the queen only lays eggs.</p>
+        <p data-en>Depending on the species, the colony raises males and new queens between June and August. Worker production stops. <strong>In August the colony reaches its peak.</strong></p>
+        <p data-en>Then the dying begins: lack of food and falling temperatures mean that between early September and mid-October all the wasps have died — including the old queen. Only the young, mated queens remain.</p>
+        <p data-en>They look for a place to overwinter (cracks, holes in the ground, dead wood) and found a new colony the following spring. But: only about <strong>one in ten</strong> queens survives the winter and manages to found a nest.</p>
+        <div class="key" data-en>The old nest is abandoned in autumn and is not reused the following year. It is possible, however, that a young queen chooses the same location in spring.</div>
+      </div>
+
+      <div class="edu-card">
+        <h3 data-de>Langkopfwespen — die friedlichen</h3>
+        <h3 data-da>Langhovedede hvepse — de fredelige</h3>
+        <h3 data-en>Long-headed wasps — the peaceful ones</h3>
+        <div class="subtitle">
+          <span data-de>Mittlere, Sächsische, Wald- und Norwegische Wespe</span>
+          <span data-da>Mellem-, Saksisk, Skov- og Norsk hveps</span>
+          <span data-en>Median, Saxon, Tree and Norwegian wasp</span>
+        </div>
+        <p data-de>Langkopfwespen interessieren sich nicht für Süßes oder Grillfleisch. Sie surren nicht um die Kaffeetafel — wenn du eine siehst, ist das in der Regel <strong>kein Problem</strong>.</p>
+        <p data-de>Ihre Nester hängen frei, oft im Gebüsch, in Hecken oder im Efeu. Bei der Mittleren Wespe ockerfarben, bei anderen Arten grau und konisch zulaufend, mit einem oder zwei Einfluglöchern an der Spitze. Sie bauen sie auch auf Dachböden, in Schuppen oder unter Vorsprüngen.</p>
+        <p data-de>Durchmesser etwa <strong>25 cm</strong>, bis zu <strong>200 Tiere</strong>. Lebenszyklus: Ende April bis Anfang/Mitte September. Die einzige süße Nahrung, die sie fressen, ist Fallobst.</p>
+        <div class="key" data-de>Das eigentliche Problem: Weil die Nester so exponiert hängen, werden sie häufig aus Angst zerstört — obwohl sie ungefährlich sind.</div>
+
+        <p data-da>Langhovedede hvepse interesserer sig ikke for sødt eller grillkød. De summer ikke ved kaffebordet — ser du en, er det som regel <strong>ikke et problem</strong>.</p>
+        <p data-da>Deres reder hænger frit, ofte i buskads, hække eller efeu. Mellemhvepsen bygger okkergule reder, andre arter grå og konisk udformede med et eller to flyvehuller i spidsen. De bygges også på lofter, i skure eller under fremspring.</p>
+        <p data-da>Diameter omkring <strong>25 cm</strong>, op til <strong>200 dyr</strong>. Livscyklus: slutningen af april til begyndelsen/midten af september. Den eneste søde føde, de spiser, er nedfaldsfrugt.</p>
+        <div class="key" data-da>Det egentlige problem: Fordi rederne hænger så eksponeret, bliver de ofte ødelagt af frygt — selvom de er ufarlige.</div>
+
+        <p data-en>Long-headed wasps have no interest in sweets or barbecue meat. They don't buzz around the coffee table — if you see one, it's usually <strong>not a problem</strong>.</p>
+        <p data-en>Their nests hang freely, often in bushes, hedges or ivy. Ochre-coloured in the median wasp, grey and conical in other species, with one or two entry holes at the tip. They also build them in attics, sheds or under overhangs.</p>
+        <p data-en>Diameter about <strong>25 cm</strong>, up to <strong>200 animals</strong>. Life cycle: end of April to early/mid-September. The only sweet food they eat is windfall fruit.</p>
+        <div class="key" data-en>The real problem: because the nests hang so exposed, they are often destroyed out of fear — even though they are harmless.</div>
+      </div>
+
+      <div class="edu-card">
+        <h3 data-de>Kurzkopfwespen — die „Nervensägen"</h3>
+        <h3 data-da>Korthovedede hvepse — „de irriterende"</h3>
+        <h3 data-en>Short-headed wasps — the "nuisances"</h3>
+        <div class="subtitle">
+          <span data-de>Deutsche Wespe, Gemeine Wespe — die zwei Problemarten</span>
+          <span data-da>Tysk hveps, Almindelig hveps — de to problemarter</span>
+          <span data-en>German wasp, Common wasp — the two problem species</span>
+        </div>
+        <p data-de>Wenn jemand sagt „die Wespen sind heute aggressiv", meint er fast immer diese zwei Arten: <strong>Deutsche Wespe</strong> (<em>Vespula germanica</em>) und <strong>Gemeine Wespe</strong> (<em>Vespula vulgaris</em>).</p>
+        <p data-de>Diese Völker können <strong>bis zu 10.000 und deutlich mehr Tiere</strong> zählen — und an warmen Stellen im Haus überleben Nester bis in den November, durch die zunehmend milden Winter sogar bis in den <strong>Januar</strong>.</p>
+        <p data-de>Ein häufiges Phänomen im Winter: Einzelne Wespen suchen sich Verstecke im gestapelten Brennholz. Wird das Holz ins warme Wohnzimmer geholt, wachen die Tiere durch die Wärme auf — und plötzlich fliegt eine Wespe mitten im Winter durchs Zimmer.</p>
+        <p data-de>Was sie um Kaffeetafel und Grill bringt: Für die Brut brauchen sie Eiweiß (deshalb das Interesse an Wurst und Fleisch), für die anstrengende Jagd brauchen sie schnellen Brennstoff (deshalb der Heißhunger auf Zucker im August/September).</p>
+        <p data-de>Ihre Nester gründen sie gerne in der Erde (daher „Erdwespen"), oder versteckt hinter Verschalungen oder im Dach. Oft erkennt man sie nur am Flugverkehr am Einflugloch.</p>
+        <div class="key" data-de>Wichtig: Selbst diese Arten greifen nicht grundlos an. Die meisten „Angriffe" entstehen durch Unaufmerksamkeit — z. B. beim Gartentreten auf ein Erdnest. Dann zeigen die Tiere ihre große Verteidigungsbereitschaft.</div>
+
+        <p data-da>Når nogen siger „hvepsene er aggressive i dag", mener de næsten altid disse to arter: <strong>Tysk hveps</strong> (<em>Vespula germanica</em>) og <strong>Almindelig hveps</strong> (<em>Vespula vulgaris</em>).</p>
+        <p data-da>Disse kolonier kan tælle <strong>op til 10.000 og betydeligt flere dyr</strong> — og på varme steder inde i huset kan reder overleve helt ind i november, og som følge af de stadig mildere vintre endda ind i <strong>januar</strong>.</p>
+        <p data-da>Et almindeligt fænomen om vinteren: Enkelte hvepse søger skjul i stablet brænde. Når brændet bringes ind i den varme stue, vækker varmen dyrene — og pludselig flyver en hveps gennem stuen midt om vinteren.</p>
+        <p data-da>Hvorfor de optræder ved kaffebordet og grillen: Til ynglen har de brug for protein (derfor interessen for pølser og kød), og til den krævende jagt har de brug for hurtig energi (derfor sukkertrangen i august/september).</p>
+        <p data-da>Deres reder bygger de gerne i jorden (deraf navnet „jordhvepse"), eller skjult bag beklædning eller på loftet. Ofte kan man kun se reden ud fra flyvetrafikken ved indgangen.</p>
+        <div class="key" data-da>Vigtigt: Selv disse arter angriber ikke uden grund. De fleste „angreb" sker af uopmærksomhed — fx ved at træde på en jordrede under havearbejde. Så viser dyrene deres store forsvarsvilje.</div>
+
+        <p data-en>When someone says "the wasps are aggressive today", they almost always mean these two species: <strong>German wasp</strong> (<em>Vespula germanica</em>) and <strong>Common wasp</strong> (<em>Vespula vulgaris</em>).</p>
+        <p data-en>These colonies can number <strong>up to 10,000 and considerably more animals</strong> — and in warm spots inside the house, nests survive into November, and because of the increasingly mild winters even into <strong>January</strong>.</p>
+        <p data-en>A common phenomenon in winter: individual wasps find hiding places in stacked firewood. When the wood is brought into the warm living room, the warmth wakes the animals — and suddenly a wasp is flying through the room in the middle of winter.</p>
+        <p data-en>What brings them to the coffee table and barbecue: for the brood they need protein (hence the interest in sausage and meat), and for their demanding hunting they need quick fuel (hence the craving for sugar in August/September).</p>
+        <p data-en>They like to build their nests in the ground (hence "ground wasps"), or hidden behind cladding or in the roof. Often you can only spot them by the air traffic at the entry hole.</p>
+        <div class="key" data-en>Important: even these species don't attack without reason. Most "attacks" happen through carelessness — e.g. stepping on a ground nest while gardening. Then the animals show their strong readiness to defend.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROZESS -->
+<section class="block" id="ablauf">
+  <div class="container">
+    <h2>
+      <span data-de>So läuft es ab.</span>
+      <span data-da>Sådan foregår det.</span>
+      <span data-en>How it works.</span>
+    </h2>
+    <div class="process-grid">
+      <div class="process-step">
+        <div class="num">1</div>
+        <h4 data-de>Foto schicken</h4>
+        <h4 data-da>Send et billede</h4>
+        <h4 data-en>Send a photo</h4>
+        <p data-de>Per WhatsApp (DE) oder SMS (DK). Damit sehen wir Art und Standort.</p>
+        <p data-da>På SMS eller Messenger. Så ser vi art og placering.</p>
+        <p data-en>Via WhatsApp (DE) or SMS (DK). That lets us see the species and location.</p>
+      </div>
+      <div class="process-step">
+        <div class="num">2</div>
+        <h4 data-de>Festpreis</h4>
+        <h4 data-da>Fast pris</h4>
+        <h4 data-en>Fixed price</h4>
+        <p data-de>Meist innerhalb weniger Stunden, oft sofort.</p>
+        <p data-da>Som regel inden for få timer, ofte med det samme.</p>
+        <p data-en>Usually within a few hours, often immediately.</p>
+      </div>
+      <div class="process-step">
+        <div class="num">3</div>
+        <h4 data-de>Termin</h4>
+        <h4 data-da>Aftal tid</h4>
+        <h4 data-en>Appointment</h4>
+        <p data-de>In der Regel 1–3 Tage. Akut auch am selben Tag.</p>
+        <p data-da>Typisk 1–3 dage. Akutte sager også samme dag.</p>
+        <p data-en>Usually 1–3 days. Urgent cases the same day.</p>
+      </div>
+      <div class="process-step">
+        <div class="num">4</div>
+        <h4 data-de>Erledigt</h4>
+        <h4 data-da>Klaret</h4>
+        <h4 data-en>Done</h4>
+        <p data-de>Sauber, sicher, mit kurzer Erklärung, was wir gemacht haben und warum.</p>
+        <p data-da>Rent, sikkert, med en kort forklaring af hvad vi har gjort og hvorfor.</p>
+        <p data-en>Clean, safe, with a short explanation of what we did and why.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="block" id="faq">
+  <div class="container">
+    <h2>
+      <span data-de>Häufige Fragen</span>
+      <span data-da>Ofte stillede spørgsmål</span>
+      <span data-en>Frequently asked questions</span>
+    </h2>
+    <div class="faq-list">
+
+      <details class="faq-item">
+        <summary>
+          <span data-de>Wie schnell könnt ihr kommen?</span>
+          <span data-da>Hvor hurtigt kan I komme?</span>
+          <span data-en>How quickly can you come?</span>
+        </summary>
+        <div class="answer">
+          <p data-de>In der Regel innerhalb von 1–3 Tagen. Bei akuten Fällen — Nest direkt am Hauseingang, Wespen in der Wohnung, Allergiker im Haushalt — versuchen wir, am selben Tag zu kommen. Schick uns am besten ein Foto, dann sagen wir dir sofort, was geht.</p>
+          <p data-da>Som regel inden for 1–3 dage. I akutte sager — rede direkte ved hoveddøren, hvepse inde i huset, allergikere i husstanden — prøver vi at komme samme dag. Send os et billede, så siger vi straks, hvad der kan lade sig gøre.</p>
+          <p data-en>Usually within 1–3 days. In urgent cases — a nest right by the front door, wasps inside the home, an allergy sufferer in the household — we try to come the same day. Best to send us a photo, then we'll tell you straight away what's possible.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span data-de>Ist das gefährlich für meine Kinder oder Haustiere?</span>
+          <span data-da>Er det farligt for mine børn eller kæledyr?</span>
+          <span data-en>Is it dangerous for my children or pets?</span>
+        </summary>
+        <div class="answer">
+          <p data-de>Nein. Bei einer Umsiedlung gibt es keine chemischen Rückstände — wir bringen das Nest einfach an einen neuen Platz. Falls in seltenen Fällen doch bekämpft werden muss, sagen wir dir vorher genau, wie lange du den Bereich meiden sollst. Meistens ein paar Stunden, nicht mehr.</p>
+          <p data-da>Nej. Ved en flytning er der ingen kemiske rester — vi flytter bare reden til et nyt sted. Skulle bekæmpelse i sjældne tilfælde være nødvendig, fortæller vi dig præcist, hvor længe du skal undgå området. Som regel et par timer, ikke mere.</p>
+          <p data-en>No. With a relocation there are no chemical residues — we simply move the nest to a new place. If in rare cases control is necessary, we'll tell you exactly how long to avoid the area beforehand. Usually a few hours, no more.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span data-de>Was kostet es genau?</span>
+          <span data-da>Hvad koster det egentlig?</span>
+          <span data-en>What exactly does it cost?</span>
+        </summary>
+        <div class="answer">
+          <p data-de>Ein Standard-Wespennest kostet <strong>160 €</strong> (1.250 DKK) als Festpreis — inklusive Anfahrt, Material und Arbeit. Hornissen und Hummeln sind individueller (Behördengang, Standort, Aufwand), deshalb bekommst du nach Foto und kurzer Rücksprache deinen festen Preis. Keine versteckten Kosten, keine Überraschungen.</p>
+          <p data-da>Et standard hvepsebo koster <strong>1.250 DKK</strong> (160 €) som fast pris — inklusiv kørsel, materialer og arbejdsløn. Gedehamse og humlebier er mere individuelle (myndighedsgodkendelse, placering, omfang), så du får din faste pris efter billede og kort samtale. Ingen skjulte omkostninger, ingen overraskelser.</p>
+          <p data-en>A standard wasp nest costs <strong>160 €</strong> (1,250 DKK) as a fixed price — including travel, materials and labour. Hornets and bumblebees are more individual (permits, location, effort), so you get your fixed price after a photo and a brief chat. No hidden costs, no surprises.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span data-de>Muss ich zu Hause sein?</span>
+          <span data-da>Skal jeg være hjemme?</span>
+          <span data-en>Do I have to be home?</span>
+        </summary>
+        <div class="answer">
+          <p data-de>Nicht zwingend. Wenn wir an das Nest herankommen, ohne durch deine Wohnung zu müssen, machen wir das auch in deiner Abwesenheit. Du beschreibst kurz den Zugang, Bezahlung und Doku läuft danach per Telefon oder E-Mail.</p>
+          <p data-da>Ikke nødvendigvis. Hvis vi kan komme til reden uden at gå gennem boligen, klarer vi det også i din fraværsperiode. Du beskriver kort adgangen — betaling og dokumentation klares bagefter pr. telefon eller e-mail.</p>
+          <p data-en>Not necessarily. If we can reach the nest without going through your home, we'll do it in your absence too. You briefly describe the access; payment and documentation follow afterwards by phone or email.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span data-de>Warum tötet ihr nicht einfach? Das geht doch schneller.</span>
+          <span data-da>Hvorfor dræber I ikke bare? Det er da hurtigere.</span>
+          <span data-en>Why don't you just kill them? That's faster, isn't it?</span>
+        </summary>
+        <div class="answer">
+          <p data-de>Weil Wespen, Hornissen und Hummeln keine Schädlinge sind. Sie sind wichtige Bestäuber und natürliche Schädlingsregulierer — ohne sie geht es uns allen schlechter. Hornissen und Hummeln sind außerdem gesetzlich streng geschützt; sie zu töten ist strafbar. Wir greifen zur Bekämpfung wirklich nur, wenn es keinen anderen Weg gibt. Meistens geht es anders — und das ist nicht teurer.</p>
+          <p data-da>Fordi hvepse, gedehamse og humlebier ikke er skadedyr. De er vigtige bestøvere og naturlige regulerer af andre insekter — uden dem går det os alle dårligere. Gedehamse og humlebier er desuden beskyttede dyr. Vi griber kun til bekæmpelse, når der virkelig ikke er nogen anden vej. I de fleste tilfælde går det anderledes — og det er ikke dyrere.</p>
+          <p data-en>Because wasps, hornets and bumblebees are not pests. They are important pollinators and natural pest regulators — without them we're all worse off. Hornets and bumblebees are also strictly protected by law; killing them is a criminal offence. We only resort to control when there really is no other way. Most of the time there is another way — and it's no more expensive.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span data-de>Sind Hornissen nicht gefährlich?</span>
+          <span data-da>Er gedehamse ikke farlige?</span>
+          <span data-en>Aren't hornets dangerous?</span>
+        </summary>
+        <div class="answer">
+          <p data-de>Nein — im Gegenteil. Hornissen sind deutlich friedlicher als gewöhnliche Wespen. Sie meiden Menschen, interessieren sich nicht für Kuchen oder Limo, und ihr Stich ist nicht giftiger als der einer Honigbiene. Der schlechte Ruf stammt aus alten Geschichten, nicht aus der Realität. Trotzdem: ein Hornissennest direkt am Hauseingang oder Kinderzimmerfenster siedeln wir gerne um.</p>
+          <p data-da>Nej — tværtimod. Gedehamse er væsentligt mere fredelige end almindelige hvepse. De undgår mennesker, interesserer sig ikke for kage eller saftevand, og deres stik er ikke giftigere end en honningbis. Det dårlige ry stammer fra gamle historier, ikke fra virkeligheden. Alligevel: et gedehamsebo direkte ved hoveddøren eller børneværelsesvinduet flytter vi gerne.</p>
+          <p data-en>No — quite the opposite. Hornets are far more peaceful than ordinary wasps. They avoid people, have no interest in cake or soft drinks, and their sting is no more toxic than a honeybee's. The bad reputation comes from old stories, not from reality. Even so: a hornet nest right by the front door or a child's bedroom window we're happy to relocate.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span data-de>Bekommt ihr wirklich jedes Nest weg?</span>
+          <span data-da>Får I virkelig hver rede væk?</span>
+          <span data-en>Do you really get every nest out?</span>
+        </summary>
+        <div class="answer">
+          <p data-de>In den allermeisten Fällen ja — auch in Rolladenkästen, Dachstühlen, Erdlöchern oder schwer erreichbaren Stellen. In den seltenen Fällen, wo es technisch nicht geht, sagen wir es offen und beraten dich kostenlos, was du sonst tun kannst. Das ist Teil unserer Garantie: Wir helfen — oder es kostet nichts.</p>
+          <p data-da>I langt de fleste tilfælde ja — også i rullegardinkasser, tagkonstruktioner, jordhuller eller andre svært tilgængelige steder. I de sjældne tilfælde, hvor det teknisk ikke er muligt, siger vi det åbent og rådgiver dig gratis om, hvad du ellers kan gøre. Det er en del af vores garanti: Vi hjælper — eller det koster intet.</p>
+          <p data-en>In the vast majority of cases, yes — even in roller-shutter boxes, roof structures, holes in the ground or hard-to-reach spots. In the rare cases where it's technically impossible, we say so openly and advise you free of charge on what else you can do. That's part of our guarantee: we help — or it costs nothing.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span data-de>Kommt ihr auch abends oder am Wochenende?</span>
+          <span data-da>Kommer I også om aftenen eller i weekenden?</span>
+          <span data-en>Do you come in the evening or at weekends too?</span>
+        </summary>
+        <div class="answer">
+          <p data-de>Ja. Wir sind keine 9-bis-17-Uhr-Firma — Wespenpanik passiert selten zur Bürozeit. Ruf einfach an. Wenn wir gerade an einem anderen Nest arbeiten, melden wir uns schnellstmöglich zurück.</p>
+          <p data-da>Ja. Vi er ikke et 9-til-17 firma — hvepsepanik sker sjældent i kontortiden. Ring bare. Er vi netop ved en anden rede, ringer vi hurtigst muligt tilbage.</p>
+          <p data-en>Yes. We're not a 9-to-5 company — wasp panic rarely happens during office hours. Just call. If we're working on another nest, we'll get back to you as quickly as possible.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span data-de>Wo arbeitet ihr — Servicegebiet?</span>
+          <span data-da>Hvor arbejder I — serviceområde?</span>
+          <span data-en>Where do you work — service area?</span>
+        </summary>
+        <div class="answer">
+          <p data-de>Die ganze Grenzregion: In <strong>Dänemark</strong> Sønderjylland von Rømø an der Westküste bis zur Ostküste. In <strong>Deutschland</strong> das nördliche Schleswig-Holstein — Schleswig-Flensburg und Nordfriesland (Flensburg bis Sylt) und bis runter nach Eckernförde.</p>
+          <p data-de>Im näheren Umkreis kommen wir meistens spontan. Weiter weg (Richtung Eckernförde z. B.) stellen wir oft eine Tour mit mehreren Einsätzen zusammen — da kann es zu kurzen Wartezeiten kommen. Sag einfach Bescheid, wir finden eine Lösung.</p>
+          <p data-da>Hele grænseregionen: I <strong>Danmark</strong> Sønderjylland — fra Rømø ved vestkysten til østkysten. I <strong>Tyskland</strong> det nordlige Slesvig-Holsten — Slesvig-Flensborg og Nordfrisland (Flensborg til Sild) og ned til Eckernförde.</p>
+          <p data-da>I det nære område kommer vi som regel spontant. Længere væk (mod Eckernförde fx) samler vi ofte flere opgaver til en tur — der kan derfor være kort ventetid. Sig bare til, vi finder en løsning.</p>
+          <p data-en>The whole border region: in <strong>Denmark</strong> Sønderjylland, from Rømø on the west coast to the east coast. In <strong>Germany</strong> northern Schleswig-Holstein — Schleswig-Flensburg and North Frisia (Flensburg to Sylt) and down to Eckernförde.</p>
+          <p data-en>In the nearer area we usually come spontaneously. Further away (towards Eckernförde, for example) we often put together a tour with several jobs — so there may be short waiting times. Just let us know, we'll find a solution.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span data-de>Was passiert mit dem Nest nach der Umsiedlung?</span>
+          <span data-da>Hvad sker der med reden efter flytningen?</span>
+          <span data-en>What happens to the nest after relocation?</span>
+        </summary>
+        <div class="answer">
+          <p data-de>Wir bringen es an einen geeigneten neuen Standort, weit weg von Menschen — Hornissen typisch in Nistkästen an Bäumen, Hummeln an einen geschützten Erdplatz, Wespen ähnlich. Das Volk hat dort die Chance, seinen Jahreszyklus normal zu beenden. Im Spätherbst stirbt der Staat ohnehin von selbst ab — nur die jungen Königinnen überwintern und gründen im nächsten Jahr neue Völker.</p>
+          <p data-da>Vi bringer den til et egnet nyt sted, langt fra mennesker — gedehamse typisk i redekasser i træer, humlebier til et beskyttet sted i jorden, hvepse på lignende vis. Kolonien får dér mulighed for at gennemføre sin årscyklus normalt. Om sensommeren dør kolonien alligevel af sig selv — kun de unge dronninger overvintrer og grundlægger nye kolonier næste år.</p>
+          <p data-en>We take it to a suitable new location, far from people — hornets typically into nest boxes on trees, bumblebees to a sheltered spot in the ground, wasps similarly. There the colony has the chance to complete its annual cycle normally. By late autumn the colony dies on its own anyway — only the young queens overwinter and found new colonies the following year.</p>
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- BEZAHLUNG / MOBILEPAY -->
+<section class="block pay" id="bezahlen">
+  <div class="container">
+    <h2>
+      <span data-de>Bezahlen mit MobilePay</span>
+      <span data-da>Betal med MobilePay</span>
+      <span data-en>Pay with MobilePay</span>
+    </h2>
+    <div class="pay-card">
+      <img class="pay-qr" src="images/mobilepay-qr-logo.png" alt="MobilePay QR-Code">
+      <div class="pay-info">
+        <p data-de>Du kannst bequem mit <strong>MobilePay</strong> bezahlen — der gängigen Zahlungsmethode in Dänemark. Scanne den QR-Code mit deinem Handy oder tippe auf den Button, dann öffnet sich die MobilePay-App direkt.</p>
+        <p data-da>Du kan nemt betale med <strong>MobilePay</strong> — den foretrukne betalingsmåde i Danmark. Scan QR-koden med din mobil eller tryk på knappen, så åbner MobilePay-appen automatisk.</p>
+        <p data-en>You can conveniently pay with <strong>MobilePay</strong> — the common payment method in Denmark. Scan the QR code with your phone or tap the button to open the MobilePay app directly.</p>
+        <div class="ctas">
+          <a class="btn btn-mobilepay" href="https://qr.mobilepay.dk/vp/goSry6Ocp" target="_blank" rel="noopener">
+            <span data-de>📱 MobilePay öffnen</span>
+            <span data-da>📱 Åbn MobilePay</span>
+            <span data-en>📱 Open MobilePay</span>
+          </a>
+        </div>
+        <p class="muted" style="margin-top:16px;margin-bottom:0;">
+          <span data-de>Den Betrag gibst du in der App selbst ein — nach Absprache.</span>
+          <span data-da>Beløbet indtaster du selv i appen — efter aftale.</span>
+          <span data-en>You enter the amount in the app yourself — as agreed.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h3 data-de>Die Wespenexperten</h3>
+        <h3 data-da>Hvepseeksperterne</h3>
+        <h3 data-en>The Wasp Experts</h3>
+        <p>Jürgen Hanika<br>
+        Skolegade 27<br>
+        6240 Øster Højst<br>
+        <span data-de>Dänemark</span><span data-da>Danmark</span><span data-en>Denmark</span></p>
+        <p style="margin-top: 12px;">CVR: 45785386</p>
+      </div>
+      <div>
+        <h3 data-de>Kontakt</h3>
+        <h3 data-da>Kontakt</h3>
+        <h3 data-en>Contact</h3>
+        <p>📞 DE: <a href="tel:+491739316539">+49 173 9316539</a></p>
+        <p>📞 DK: <a href="tel:+4560463053">+45 60 46 30 53</a></p>
+        <p>✉️ <a href="mailto:hilfe@wespenexperten.de">hilfe@wespenexperten.de</a></p>
+        <p>✉️ <a href="mailto:juergen.hanika@wespenexperten.de">juergen.hanika@wespenexperten.de</a></p>
+      </div>
+      <div>
+        <h3 data-de>Rechtliches</h3>
+        <h3 data-da>Juridisk</h3>
+        <h3 data-en>Legal</h3>
+        <p><a href="#impressum" data-de>Impressum</a><a href="#impressum" data-da>Kontaktoplysninger</a><a href="#impressum" data-en>Imprint</a></p>
+        <p><a href="#datenschutz" data-de>Datenschutz</a><a href="#datenschutz" data-da>Privatlivspolitik</a><a href="#datenschutz" data-en>Privacy</a></p>
+      </div>
+      <div>
+        <h3 data-de>In Deutschland</h3>
+        <h3 data-da>I Tyskland</h3>
+        <h3 data-en>In Germany</h3>
+        <p><a href="https://www.wespenexperte.de" target="_blank" rel="noopener">Die Wespenexperten</a></p>
+        <p><a href="https://die-schaedlingsexperten.de" target="_blank" rel="noopener">Die Schädlingsexperten</a></p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span data-de>© <span class="yr"></span> Jürgen Hanika · Die Wespenexperten</span>
+      <span data-da>© <span class="yr"></span> Jürgen Hanika · Hvepseeksperterne</span>
+      <span data-en>© <span class="yr"></span> Jürgen Hanika · The Wasp Experts</span>
+      <span data-de>Ruf an — wir sind dran oder melden uns schnell.</span>
+      <span data-da>Ring — vi tager den eller melder os hurtigst muligt tilbage.</span>
+      <span data-en>Call us — we'll answer or get back to you fast.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- IMPRESSUM -->
+<section id="impressum" class="legal">
+  <div class="container" style="max-width: 800px;">
+    <div data-de>
+      <h2>Impressum</h2>
+      <p>Angaben gemäß § 5 DDG (Digitale-Dienste-Gesetz):</p>
+      <h3>Anbieter</h3>
+      <p>Jürgen Hanika<br>Die Wespenexperten<br>Skolegade 27<br>6240 Øster Højst<br>Dänemark</p>
+      <h3>Kontakt</h3>
+      <p>Telefon: +49 173 9316539<br>E-Mail: hilfe@wespenexperten.de</p>
+      <h3>Unternehmensdaten</h3>
+      <p>Eingetragenes dänisches Unternehmen <em>„Hvepseeksperterne"</em><br>CVR-Nummer: 45785386</p>
+      <p>Die Tätigkeit in Deutschland erfolgt ausschließlich über die in Dänemark eingetragene Firma. Eine separate deutsche Gewerbeanmeldung besteht nicht. Aufsichtsbehörde und maßgebliche Rechtsordnung für die Firmenführung: Dänemark.</p>
+      <h3>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h3>
+      <p>Jürgen Hanika (Anschrift wie oben)</p>
+      <h3>Streitschlichtung</h3>
+      <p>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung bereit: <a href="https://ec.europa.eu/consumers/odr/">https://ec.europa.eu/consumers/odr/</a>. Wir sind nicht verpflichtet und nicht bereit, an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+      <h3>Haftung für Inhalte</h3>
+      <p>Die Inhalte dieser Seite wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität übernehmen wir jedoch keine Gewähr.</p>
+    </div>
+
+    <div data-da>
+      <h2>Kontaktoplysninger</h2>
+      <p>Oplysninger i henhold til § 6 i markedsføringsloven:</p>
+      <h3>Virksomhed</h3>
+      <p>Jürgen Hanika<br>Hvepseeksperterne<br>Skolegade 27<br>6240 Øster Højst<br>Danmark</p>
+      <h3>Kontakt</h3>
+      <p>Telefon: +45 60 46 30 53<br>E-mail: juergen.hanika@wespenexperten.de</p>
+      <h3>Virksomhedsoplysninger</h3>
+      <p>CVR-nummer: 45785386</p>
+      <h3>Ansvar for indhold</h3>
+      <p>Indholdet på denne side er udarbejdet med største omhu. Vi påtager os dog intet ansvar for nøjagtighed, fuldstændighed eller aktualitet.</p>
+    </div>
+
+    <div data-en>
+      <h2>Imprint</h2>
+      <p>Information pursuant to § 5 DDG (German Digital Services Act):</p>
+      <h3>Provider</h3>
+      <p>Jürgen Hanika<br>The Wasp Experts<br>Skolegade 27<br>6240 Øster Højst<br>Denmark</p>
+      <h3>Contact</h3>
+      <p>Phone: +49 173 9316539<br>Email: hilfe@wespenexperten.de</p>
+      <h3>Company details</h3>
+      <p>Registered Danish company <em>"Hvepseeksperterne"</em><br>CVR number: 45785386</p>
+      <p>Activities in Germany are carried out exclusively through the company registered in Denmark. There is no separate German business registration. Supervisory authority and governing law for company management: Denmark.</p>
+      <h3>Responsible for content under § 18 (2) MStV</h3>
+      <p>Jürgen Hanika (address as above)</p>
+      <h3>Dispute resolution</h3>
+      <p>The European Commission provides a platform for online dispute resolution: <a href="https://ec.europa.eu/consumers/odr/">https://ec.europa.eu/consumers/odr/</a>. We are neither obliged nor willing to take part in dispute resolution proceedings before a consumer arbitration board.</p>
+      <h3>Liability for content</h3>
+      <p>The contents of this page were created with the greatest care. However, we accept no liability for their accuracy, completeness or timeliness.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DATENSCHUTZ -->
+<section id="datenschutz" class="legal" style="background: #EBE4D4;">
+  <div class="container" style="max-width: 800px;">
+    <div data-de>
+      <h2>Datenschutzerklärung</h2>
+      <p>Diese Webseite verarbeitet keine personenbezogenen Daten aktiv. Es werden keine Cookies gesetzt, kein Tracking durchgeführt, und es gibt keine Kontaktformulare.</p>
+      <h3>Server-Logfiles</h3>
+      <p>Wie bei jedem Webseiten-Aufruf erfasst der Webserver technisch notwendige Daten (IP-Adresse, Datum/Uhrzeit, abgerufene Seite, Browser-Typ). Diese Daten werden nicht mit anderen Daten zusammengeführt und nach kurzer Zeit gelöscht. Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse am sicheren Betrieb der Webseite).</p>
+      <h3>Kontaktaufnahme</h3>
+      <p>Wenn du uns per Telefon, WhatsApp, SMS oder E-Mail kontaktierst, werden die übermittelten Daten zur Bearbeitung deiner Anfrage gespeichert. Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (Vertragsanbahnung). Die Daten werden gelöscht, sobald sie für den Zweck nicht mehr erforderlich sind, spätestens nach den gesetzlichen Aufbewahrungsfristen.</p>
+      <h3>Deine Rechte</h3>
+      <p>Du hast jederzeit das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch. Wende dich dazu an: hilfe@wespenexperten.de</p>
+      <h3>Beschwerderecht</h3>
+      <p>Du kannst dich bei der zuständigen Datenschutzaufsichtsbehörde beschweren — in Dänemark beim Datatilsynet (datatilsynet.dk), in Deutschland bei der Landesdatenschutzbehörde deines Bundeslandes.</p>
+    </div>
+
+    <div data-da>
+      <h2>Privatlivspolitik</h2>
+      <p>Denne hjemmeside behandler ikke aktivt personoplysninger. Der sættes ingen cookies, der laves ingen tracking, og der findes ingen kontaktformularer.</p>
+      <h3>Server-logfiler</h3>
+      <p>Som ved ethvert besøg på en hjemmeside registrerer webserveren teknisk nødvendige data (IP-adresse, dato/tidspunkt, åbnet side, browsertype). Disse data sammenkædes ikke med andre data og slettes efter kort tid. Retsgrundlag: Artikel 6, stk. 1, litra f, GDPR (legitim interesse i sikker drift af hjemmesiden).</p>
+      <h3>Kontakt</h3>
+      <p>Når du kontakter os via telefon, SMS, Messenger eller e-mail, gemmes de oplyste data til behandling af din henvendelse. Retsgrundlag: Artikel 6, stk. 1, litra b, GDPR (kontraktforberedelse). Data slettes, så snart de ikke længere er nødvendige til formålet, senest efter de lovbestemte opbevaringsfrister.</p>
+      <h3>Dine rettigheder</h3>
+      <p>Du har til enhver tid ret til indsigt, berigtigelse, sletning, begrænsning af behandling, dataportabilitet og indsigelse. Kontakt: juergen.hanika@wespenexperten.de</p>
+      <h3>Klageret</h3>
+      <p>Du kan klage til den kompetente databeskyttelsesmyndighed — i Danmark Datatilsynet (datatilsynet.dk).</p>
+    </div>
+
+    <div data-en>
+      <h2>Privacy Policy</h2>
+      <p>This website does not actively process any personal data. No cookies are set, no tracking is carried out, and there are no contact forms.</p>
+      <h3>Server log files</h3>
+      <p>As with every website visit, the web server records technically necessary data (IP address, date/time, page accessed, browser type). This data is not merged with other data and is deleted after a short time. Legal basis: Art. 6(1)(f) GDPR (legitimate interest in the secure operation of the website).</p>
+      <h3>Contacting us</h3>
+      <p>If you contact us by phone, WhatsApp, SMS or email, the data you provide is stored to process your request. Legal basis: Art. 6(1)(b) GDPR (pre-contractual measures). The data is deleted as soon as it is no longer needed for the purpose, at the latest after the statutory retention periods.</p>
+      <h3>Your rights</h3>
+      <p>You have the right at any time to access, rectification, erasure, restriction of processing, data portability and objection. To exercise these, contact: hilfe@wespenexperten.de</p>
+      <h3>Right to complain</h3>
+      <p>You can complain to the competent data protection supervisory authority — in Denmark the Datatilsynet (datatilsynet.dk), in Germany the state data protection authority of your federal state.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+function setLang(lang) {
+  document.documentElement.lang = lang;
+  var titles = {
+    de: 'Die Wespenexperten — Wespen, Hornissen, Hummeln in DE & DK',
+    da: 'Hvepseeksperterne — Hvepse, gedehamse, humlebier i DK & DE',
+    en: 'The Wasp Experts — Wasps, Hornets, Bumblebees in DE & DK'
+  };
+  document.title = titles[lang] || titles.de;
+  try { localStorage.setItem('lang', lang); } catch(e) {}
+}
+
+// Mobile-Navigation (Hamburger)
+function toggleNav() {
+  const open = document.getElementById('nav').classList.contains('open');
+  open ? closeNav() : openNav();
+}
+function openNav() {
+  document.getElementById('nav').classList.add('open');
+  document.getElementById('nav-backdrop').classList.add('open');
+  document.getElementById('nav-toggle').setAttribute('aria-expanded', 'true');
+  document.body.style.overflow = 'hidden';
+}
+function closeNav() {
+  document.getElementById('nav').classList.remove('open');
+  document.getElementById('nav-backdrop').classList.remove('open');
+  document.getElementById('nav-toggle').setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+}
+// Mit Escape schließen
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNav(); });
+
+// Sprache beim Laden festlegen: zuvor gewählte Sprache bevorzugen,
+// sonst automatisch die Sprache des Besuchers (Browser/Gerät) erkennen.
+try {
+  const saved = localStorage.getItem('lang');
+  if (saved === 'da' || saved === 'de' || saved === 'en') {
+    setLang(saved);
+  } else {
+    const pref = ((navigator.languages && navigator.languages[0]) || navigator.language || 'de').toLowerCase();
+    if (pref.startsWith('da')) setLang('da');
+    else if (pref.startsWith('de')) setLang('de');
+    else setLang('en');
+  }
+} catch(e) {}
+
+// Jahr im Footer (alle Sprachen)
+const y = new Date().getFullYear();
+document.querySelectorAll('.yr').forEach(el => el.textContent = y);
+
+// Bilder laden, falls vorhanden — sonst Placeholder
+function tryLoadImage(elementId, src) {
+  const el = document.getElementById(elementId);
+  if (!el) return;
+  const img = new Image();
+  img.onload = () => {
+    el.style.backgroundImage = `url('${src}')`;
+    el.innerHTML = '';
+  };
+  img.src = src;
+}
+tryLoadImage('hero-image', 'images/juergen-skizze.jpg');
+tryLoadImage('bio-photo', 'images/juergen-foto.jpg');
+tryLoadImage('wespe-1', 'images/wespe-1.jpg');
+tryLoadImage('wespe-2', 'images/wespe-2.jpg');
+tryLoadImage('wespe-3', 'images/wespe-3.jpg');
+tryLoadImage('wespe-4', 'images/wespe-4.jpg');
+</script>
+
+</body>
+</html>
