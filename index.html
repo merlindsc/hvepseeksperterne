@@ -653,6 +653,40 @@ footer a:hover { color: #FFFCF7; text-decoration: underline; }
 .legal h2 { font-size: 1.6rem; margin-bottom: 16px; }
 .legal h3 { font-size: 1.1rem; margin: 20px 0 6px; }
 .legal p { margin-bottom: 10px; }
+
+/* Rechtliches-Overlay (Impressum + Datenschutz) */
+.legal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: var(--bg);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.legal-overlay.open { display: block; }
+.legal-overlay-bar {
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 1;
+}
+.legal-close {
+  background: var(--text);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+.legal-close:hover { background: #000; }
 .placeholder {
   background: #FFF3CD;
   border-left: 3px solid #E68A19;
@@ -775,6 +809,7 @@ footer a:hover { color: #FFFCF7; text-decoration: underline; }
       <a href="#ablauf" onclick="closeNav()"><span data-de>Ablauf</span><span data-da>Sådan foregår det</span><span data-en>How it works</span></a>
       <a href="#faq" onclick="closeNav()"><span data-de>FAQ</span><span data-da>FAQ</span><span data-en>FAQ</span></a>
       <a href="#bezahlen" onclick="closeNav()">MobilePay</a>
+      <a href="#" onclick="openLegal(); closeNav(); return false;"><span data-de>Impressum</span><span data-da>Kontaktoplysninger</span><span data-en>Imprint</span></a>
     </nav>
     <div class="lang-switch">
       <button data-set="de" onclick="setLang('de')">DE</button>
@@ -1402,8 +1437,8 @@ footer a:hover { color: #FFFCF7; text-decoration: underline; }
         <h3 data-de>Rechtliches</h3>
         <h3 data-da>Juridisk</h3>
         <h3 data-en>Legal</h3>
-        <p><a href="#impressum" data-de>Impressum</a><a href="#impressum" data-da>Kontaktoplysninger</a><a href="#impressum" data-en>Imprint</a></p>
-        <p><a href="#datenschutz" data-de>Datenschutz</a><a href="#datenschutz" data-da>Privatlivspolitik</a><a href="#datenschutz" data-en>Privacy</a></p>
+        <p><a href="#" onclick="openLegal(); return false;" data-de>Impressum</a><a href="#" onclick="openLegal(); return false;" data-da>Kontaktoplysninger</a><a href="#" onclick="openLegal(); return false;" data-en>Imprint</a></p>
+        <p><a href="#" onclick="openLegal('datenschutz'); return false;" data-de>Datenschutz</a><a href="#" onclick="openLegal('datenschutz'); return false;" data-da>Privatlivspolitik</a><a href="#" onclick="openLegal('datenschutz'); return false;" data-en>Privacy</a></p>
       </div>
       <div>
         <h3 data-de>In Deutschland</h3>
@@ -1423,6 +1458,12 @@ footer a:hover { color: #FFFCF7; text-decoration: underline; }
     </div>
   </div>
 </footer>
+
+<!-- RECHTLICHES (Overlay – öffnet über Menüpunkt „Impressum") -->
+<div id="legal-overlay" class="legal-overlay" role="dialog" aria-modal="true" aria-label="Rechtliche Informationen">
+  <div class="legal-overlay-bar">
+    <button class="legal-close" onclick="closeLegal()">✕ <span data-de>Schließen</span><span data-da>Luk</span><span data-en>Close</span></button>
+  </div>
 
 <!-- IMPRESSUM -->
 <section id="impressum" class="legal">
@@ -1521,6 +1562,8 @@ footer a:hover { color: #FFFCF7; text-decoration: underline; }
     </div>
   </div>
 </section>
+</div>
+<!-- Ende Rechtliches-Overlay -->
 
 <script>
 // === Sprache (DE / DA / EN) ===
@@ -1578,7 +1621,7 @@ function closeNav() {
   document.body.style.overflow = '';
 }
 // Mit Escape schließen
-document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeNav(); });
+document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { closeNav(); closeLegal(); } });
 
 // === FAQ: aria-expanded synchron zum Auf-/Zuklappen halten ===
 document.querySelectorAll('.faq-item').forEach(function (item) {
@@ -1589,6 +1632,23 @@ document.querySelectorAll('.faq-item').forEach(function (item) {
     s.setAttribute('aria-expanded', item.open ? 'true' : 'false');
   });
 });
+
+// === Rechtliches-Overlay (Impressum + Datenschutz) ===
+function openLegal(section) {
+  var ov = document.getElementById('legal-overlay');
+  ov.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if (section === 'datenschutz') {
+    var el = document.getElementById('datenschutz');
+    if (el) el.scrollIntoView();
+  } else {
+    ov.scrollTop = 0;
+  }
+}
+function closeLegal() {
+  document.getElementById('legal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
 
 // === Jahr im Footer (alle Sprachen) ===
 var y = new Date().getFullYear();
