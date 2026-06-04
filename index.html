@@ -3,7 +3,67 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Die Wespenexperten — Wespen, Hornissen, Hummeln in DE & DK</title>
+<meta name="description" content="Wespen, Hornissen & Hummeln in Schleswig-Holstein, Hamburg & Südjütland – umgesiedelt statt getötet. Festpreis 160 € / 1.250 DKK. Familienbetrieb seit 1992.">
+<meta name="author" content="Jürgen Hanika">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="theme-color" content="#F0C808">
+<link rel="canonical" href="https://hvepseeksperterne.eu/">
+
+<!-- Sprache (DE/DA/EN) früh setzen, damit beim Laden nicht kurz alle Sprachen aufblitzen -->
+<script>
+(function () {
+  function pick() {
+    try {
+      var m = location.search.match(/[?&]lang=(de|da|en)/);
+      if (m) return m[1];
+      var s = localStorage.getItem('lang');
+      if (s === 'de' || s === 'da' || s === 'en') return s;
+    } catch (e) {}
+    var p = ((navigator.languages && navigator.languages[0]) || navigator.language || 'de').toLowerCase();
+    if (p.indexOf('da') === 0) return 'da';
+    if (p.indexOf('de') === 0) return 'de';
+    return 'en';
+  }
+  document.documentElement.lang = pick();
+})();
+</script>
+
+<!-- Hreflang: dieselbe Seite, Sprache über ?lang= -->
+<link rel="alternate" hreflang="de" href="https://hvepseeksperterne.eu/?lang=de">
+<link rel="alternate" hreflang="da" href="https://hvepseeksperterne.eu/?lang=da">
+<link rel="alternate" hreflang="en" href="https://hvepseeksperterne.eu/?lang=en">
+<link rel="alternate" hreflang="x-default" href="https://hvepseeksperterne.eu/">
+
+<!-- Icons / PWA -->
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+
+<!-- Open Graph / Social Sharing -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Die Wespenexperten · Hvepseeksperterne">
+<meta property="og:title" content="Die Wespenexperten — Umsiedeln statt töten (DE & DK)">
+<meta property="og:description" content="Wespen, Hornissen & Hummeln in Schleswig-Holstein, Hamburg & Südjütland – umgesiedelt statt getötet. Festpreis 160 € / 1.250 DKK. Seit 1992.">
+<meta property="og:url" content="https://hvepseeksperterne.eu/">
+<meta property="og:image" content="https://hvepseeksperterne.eu/images/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="de_DE">
+<meta property="og:locale:alternate" content="da_DK">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Die Wespenexperten — Umsiedeln statt töten (DE & DK)">
+<meta name="twitter:description" content="Wespen, Hornissen & Hummeln umgesiedelt statt getötet. Festpreis 160 € / 1.250 DKK. Seit 1992.">
+<meta name="twitter:image" content="https://hvepseeksperterne.eu/images/og-image.jpg">
+
+<!-- Performance-Hinweise -->
+<link rel="preload" as="image" href="images/juergen-skizze.jpg" fetchpriority="high">
+<link rel="dns-prefetch" href="https://wa.me">
+<link rel="dns-prefetch" href="https://qr.mobilepay.dk">
 <style>
 :root {
   --bg: #FBF8F2;
@@ -16,9 +76,40 @@
   --green: #25D366;
   --blue: #007AFF;
   --shadow: 0 2px 12px rgba(0,0,0,0.06);
+  --shadow-deep: 0 10px 30px rgba(0,0,0,0.12);
+  --accent-text: #8A6D00; /* AA-konformes Gold für Text auf hellem Grund */
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* Bewegung reduzieren, wenn der Nutzer es so eingestellt hat */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Sprung direkt zum Inhalt (Tastatur / Screenreader) */
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -60px;
+  background: var(--accent-dark);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 700;
+  text-decoration: none;
+  z-index: 200;
+  transition: top 0.2s ease;
+}
+.skip-link:focus { top: 16px; }
+
+/* Sichtbarer Tastatur-Fokus auf der ganzen Seite */
+:focus-visible { outline: 3px solid var(--accent-dark); outline-offset: 2px; border-radius: 4px; }
 
 html { scroll-behavior: smooth; scroll-padding-top: 84px; }
 html, body { overflow-x: hidden; max-width: 100%; }
@@ -46,6 +137,8 @@ html[lang="en"] [data-de], html[lang="en"] [data-da] { display: none; }
 
 /* Layout */
 .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.container-narrow { max-width: 800px; }
+.bg-cream { background: #FFFCF7; }
 
 /* Header */
 header {
@@ -64,8 +157,8 @@ header {
   max-width: 1100px;
   margin: 0 auto;
 }
-.logo { margin-right: auto; }
 .logo {
+  margin-right: auto;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -74,6 +167,8 @@ header {
   letter-spacing: -0.03em;
   text-transform: uppercase;
   line-height: 1;
+  color: inherit;
+  text-decoration: none;
 }
 .logo .accent { color: var(--accent); }
 .logo-icon { height: 40px; width: auto; display: block; flex-shrink: 0; }
@@ -106,12 +201,11 @@ html[lang="de"] .lang-switch button[data-set="de"],
 html[lang="da"] .lang-switch button[data-set="da"],
 html[lang="en"] .lang-switch button[data-set="en"] {
   background: var(--accent);
-  color: white;
+  color: #1A1A1A;
   border-color: var(--accent);
 }
 
 /* Navigation */
-.logo { color: inherit; text-decoration: none; }
 .nav { display: flex; align-items: center; gap: 22px; }
 .nav > a {
   color: var(--text);
@@ -120,7 +214,7 @@ html[lang="en"] .lang-switch button[data-set="en"] {
   font-size: 0.95rem;
   white-space: nowrap;
 }
-.nav > a:hover { color: var(--accent-dark); }
+.nav > a:hover { color: var(--accent-text); }
 
 /* Hamburger-Button */
 .nav-toggle {
@@ -200,7 +294,7 @@ html[lang="en"] .lang-switch button[data-set="en"] {
   font-weight: 800;
   margin-bottom: 20px;
 }
-.hero h1 .accent { color: var(--accent); }
+.hero h1 .accent { color: var(--accent-text); }
 .hero .sub {
   font-size: 1.15rem;
   color: var(--muted);
@@ -208,6 +302,15 @@ html[lang="en"] .lang-switch button[data-set="en"] {
   max-width: 520px;
 }
 .hero .ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+.trust-row {
+  margin-top: 22px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 600;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+}
 
 .btn {
   display: inline-flex;
@@ -224,13 +327,16 @@ html[lang="en"] .lang-switch button[data-set="en"] {
   font-family: inherit;
 }
 .btn:active { transform: scale(0.98); }
-.btn-primary { background: var(--accent); color: white; }
-.btn-primary:hover { background: var(--accent-dark); }
+.btn-primary { background: var(--accent); color: #1A1A1A; }
+.btn-primary:hover { background: var(--accent-dark); color: #1A1A1A; box-shadow: 0 8px 20px rgba(240,200,8,0.30); transform: translateY(-2px); }
 .btn-whatsapp { background: var(--green); color: white; }
+.btn-whatsapp:hover { background: #1EBE5A; box-shadow: 0 8px 20px rgba(37,211,102,0.28); transform: translateY(-2px); }
 .btn-sms { background: var(--blue); color: white; }
+.btn-sms:hover { background: #0066DB; box-shadow: 0 8px 20px rgba(0,122,255,0.25); transform: translateY(-2px); }
 .btn-secondary { background: white; color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { background: #FFFAF0; border-color: var(--accent); }
 .btn-mobilepay { background: #5A78FF; color: white; }
-.btn-mobilepay:hover { background: #4862d6; }
+.btn-mobilepay:hover { background: #4862d6; box-shadow: 0 8px 20px rgba(90,120,255,0.28); transform: translateY(-2px); }
 
 /* MobilePay / Bezahlung */
 .pay { background: #FFFCF7; }
@@ -263,19 +369,14 @@ html[lang="en"] .lang-switch button[data-set="en"] {
 }
 
 .hero-image {
+  width: 100%;
   aspect-ratio: 4/5;
   border-radius: 16px;
+  object-fit: cover;
+  display: block;
   background: linear-gradient(135deg, #f5e6d0, #e8d4ad);
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--muted);
-  font-size: 0.9rem;
   box-shadow: var(--shadow);
 }
-.hero-image[data-src] { background-image: var(--bg-img); }
 .hero-caption {
   display: flex;
   justify-content: space-between;
@@ -298,7 +399,7 @@ html[lang="en"] .lang-switch button[data-set="en"] {
 /* Banner */
 .banner {
   background: var(--accent);
-  color: white;
+  color: #1A1A1A;
   padding: 22px 0;
   text-align: center;
   font-weight: 600;
@@ -334,14 +435,14 @@ section.block .lead { font-size: 1.15rem; color: var(--muted); max-width: 700px;
   width: 100%;
   aspect-ratio: 16/10;
   border-radius: 10px;
-  background-size: cover;
-  background-position: center;
   margin-bottom: 16px;
-  background-color: #EEE;
+  object-fit: cover;
+  display: block;
+  background: linear-gradient(135deg, #f5e6d0, #e8d4ad);
 }
 .service-card h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; }
 .service-card .price {
-  color: var(--accent);
+  color: var(--accent-text);
   font-weight: 700;
   font-size: 1.05rem;
   margin-bottom: 14px;
@@ -367,7 +468,7 @@ section.block .lead { font-size: 1.15rem; color: var(--muted); max-width: 700px;
 .philosophy-content { max-width: 760px; }
 .philosophy-content h2 { margin-bottom: 24px; }
 .philosophy-content p { font-size: 1.1rem; margin-bottom: 18px; color: #2A2419; }
-.philosophy-content .highlight { font-weight: 700; font-size: 1.25rem; color: var(--accent-dark); }
+.philosophy-content .highlight { font-weight: 700; font-size: 1.25rem; color: var(--accent-text); }
 
 /* Prozess */
 .process-grid {
@@ -385,7 +486,7 @@ section.block .lead { font-size: 1.15rem; color: var(--muted); max-width: 700px;
 .process-step .num {
   width: 36px; height: 36px;
   background: var(--accent);
-  color: white;
+  color: #1A1A1A;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -417,7 +518,7 @@ section.block .lead { font-size: 1.15rem; color: var(--muted); max-width: 700px;
   letter-spacing: -0.01em;
 }
 .edu-card .subtitle {
-  color: var(--accent-dark);
+  color: var(--accent-text);
   font-weight: 600;
   margin-bottom: 18px;
   font-size: 0.95rem;
@@ -442,21 +543,15 @@ section.block .lead { font-size: 1.15rem; color: var(--muted); max-width: 700px;
 .gallery-item {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: hidden;
 }
 .gallery-item .img-wrap {
   aspect-ratio: 1/1;
+  width: 100%;
+  object-fit: cover;
+  display: block;
   background: linear-gradient(135deg, #f0e1c8, #ddc89a);
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--muted);
-  font-size: 0.78rem;
-  text-align: center;
-  padding: 10px;
 }
 .gallery-item .caption {
   padding: 14px 16px 18px;
@@ -476,22 +571,17 @@ section.block .lead { font-size: 1.15rem; color: var(--muted); max-width: 700px;
   align-items: start;
 }
 .bio-photo {
+  width: 100%;
   aspect-ratio: 4/5;
   border-radius: 16px;
+  object-fit: cover;
+  display: block;
   background: linear-gradient(135deg, #d8c4a5, #b89a6f);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 4rem;
-  font-weight: 700;
-  background-size: cover;
-  background-position: center;
   box-shadow: var(--shadow);
 }
 .bio-text h2 { margin-bottom: 20px; }
 .bio-text p { margin-bottom: 18px; color: #2A2419; }
-.bio-text .pull { font-size: 1.2rem; font-weight: 700; color: var(--accent-dark); }
+.bio-text .pull { font-size: 1.2rem; font-weight: 700; color: var(--accent-text); }
 .bio-text .note { font-style: italic; color: var(--muted); font-size: 0.98rem; margin-top: 8px; }
 
 /* FAQ */
@@ -499,7 +589,7 @@ section.block .lead { font-size: 1.15rem; color: var(--muted); max-width: 700px;
 .faq-item {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 14px;
   margin-bottom: 12px;
   overflow: hidden;
 }
@@ -517,8 +607,8 @@ section.block .lead { font-size: 1.15rem; color: var(--muted); max-width: 700px;
 .faq-item summary::after {
   content: "+";
   font-size: 1.5rem;
-  color: var(--accent);
-  font-weight: 400;
+  color: var(--accent-text);
+  font-weight: 700;
   transition: transform 0.2s;
 }
 .faq-item[open] summary::after { content: "−"; }
@@ -540,8 +630,8 @@ footer h3 { color: white; margin-bottom: 16px; font-size: 1.1rem; }
   gap: 36px;
   margin-bottom: 40px;
 }
-footer a { color: #DDD; text-decoration: none; }
-footer a:hover { color: var(--accent); }
+footer a { color: var(--accent); text-decoration: none; }
+footer a:hover { color: #FFFCF7; text-decoration: underline; }
 .footer-bottom {
   border-top: 1px solid #333;
   padding-top: 20px;
@@ -585,15 +675,95 @@ footer a:hover { color: var(--accent); }
   .banner { font-size: 0.95rem; padding: 18px 16px; }
   .banner .sep { display: block; margin: 4px 0; opacity: 0; height: 0; }
 }
+
+/* Mobile: CTA-Buttons volle Breite & komfortable Tap-Größe (≥48px) */
+@media (max-width: 640px) {
+  .hero .ctas { flex-direction: column; align-items: stretch; }
+  .hero .ctas .btn { width: 100%; justify-content: center; }
+  .btn { padding: 16px 22px; min-height: 48px; }
+}
+
+/* Tablet: Footer 2-spaltig statt direktem Sprung von 4 auf 1 Spalte */
+@media (min-width: 801px) and (max-width: 950px) {
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+}
 </style>
+
+<!-- Strukturdaten: Lokales Unternehmen (für Google / Local Pack) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "PestControl",
+  "@id": "https://hvepseeksperterne.eu/#business",
+  "name": "Die Wespenexperten – Hvepseeksperterne",
+  "alternateName": "Hvepseeksperterne",
+  "url": "https://hvepseeksperterne.eu/",
+  "image": "https://hvepseeksperterne.eu/images/og-image.jpg",
+  "logo": "https://hvepseeksperterne.eu/images/logo-wespe.png",
+  "description": "Umsiedlung und fachgerechte Entfernung von Wespen, Hornissen und Hummeln in Schleswig-Holstein, Hamburg und Südjütland – ohne zu töten. Festpreis 160 € / 1.250 DKK. Familienbetrieb seit 1992.",
+  "telephone": "+491739316539",
+  "email": "juergenhanika@wespenexperten.eu",
+  "foundingDate": "1992",
+  "priceRange": "€€",
+  "currenciesAccepted": "EUR, DKK",
+  "paymentAccepted": "Cash, MobilePay",
+  "founder": { "@type": "Person", "name": "Jürgen Hanika" },
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Skolegade 27",
+    "postalCode": "6240",
+    "addressLocality": "Øster Højst",
+    "addressCountry": "DK"
+  },
+  "areaServed": [
+    { "@type": "AdministrativeArea", "name": "Schleswig-Holstein" },
+    { "@type": "City", "name": "Hamburg" },
+    { "@type": "AdministrativeArea", "name": "Sønderjylland" }
+  ],
+  "contactPoint": [
+    { "@type": "ContactPoint", "telephone": "+491739316539", "contactType": "customer service", "areaServed": "DE", "availableLanguage": ["de", "en"] },
+    { "@type": "ContactPoint", "telephone": "+4560463053", "contactType": "customer service", "areaServed": "DK", "availableLanguage": ["da", "de", "en"] }
+  ],
+  "identifier": { "@type": "PropertyValue", "propertyID": "CVR", "value": "45785386" },
+  "sameAs": [
+    "https://www.wespenexperte.de",
+    "https://die-schaedlingsexperten.de"
+  ]
+}
+</script>
+
+<!-- Strukturdaten: Häufige Fragen -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "inLanguage": "de",
+  "mainEntity": [
+    { "@type": "Question", "name": "Wie schnell könnt ihr kommen?", "acceptedAnswer": { "@type": "Answer", "text": "In der Regel innerhalb von 1–3 Tagen. Bei akuten Fällen — Nest direkt am Hauseingang, Wespen in der Wohnung, Allergiker im Haushalt — versuchen wir, am selben Tag zu kommen. Schick uns am besten ein Foto, dann sagen wir dir sofort, was geht." } },
+    { "@type": "Question", "name": "Ist das gefährlich für meine Kinder oder Haustiere?", "acceptedAnswer": { "@type": "Answer", "text": "Nein. Bei einer Umsiedlung gibt es keine chemischen Rückstände — wir bringen das Nest einfach an einen neuen Platz. Falls in seltenen Fällen doch bekämpft werden muss, sagen wir dir vorher genau, wie lange du den Bereich meiden sollst. Meistens ein paar Stunden, nicht mehr." } },
+    { "@type": "Question", "name": "Was kostet es genau?", "acceptedAnswer": { "@type": "Answer", "text": "Ein Standard-Wespennest kostet 160 € (1.250 DKK) als Festpreis — inklusive Anfahrt, Material und Arbeit. Hornissen und Hummeln sind individueller (Behördengang, Standort, Aufwand), deshalb bekommst du nach Foto und kurzer Rücksprache deinen festen Preis. Keine versteckten Kosten, keine Überraschungen." } },
+    { "@type": "Question", "name": "Muss ich zu Hause sein?", "acceptedAnswer": { "@type": "Answer", "text": "Nicht zwingend. Wenn wir an das Nest herankommen, ohne durch deine Wohnung zu müssen, machen wir das auch in deiner Abwesenheit. Du beschreibst kurz den Zugang, Bezahlung und Doku läuft danach per Telefon oder E-Mail." } },
+    { "@type": "Question", "name": "Warum tötet ihr nicht einfach? Das geht doch schneller.", "acceptedAnswer": { "@type": "Answer", "text": "Weil Wespen, Hornissen und Hummeln keine Schädlinge sind. Sie sind wichtige Bestäuber und natürliche Schädlingsregulierer — ohne sie geht es uns allen schlechter. Hornissen und Hummeln sind außerdem gesetzlich streng geschützt; sie zu töten ist strafbar. Wir greifen zur Bekämpfung wirklich nur, wenn es keinen anderen Weg gibt. Meistens geht es anders — und das ist nicht teurer." } },
+    { "@type": "Question", "name": "Sind Hornissen nicht gefährlich?", "acceptedAnswer": { "@type": "Answer", "text": "Nein — im Gegenteil. Hornissen sind deutlich friedlicher als gewöhnliche Wespen. Sie meiden Menschen, interessieren sich nicht für Kuchen oder Limo, und ihr Stich ist nicht giftiger als der einer Honigbiene. Der schlechte Ruf stammt aus alten Geschichten, nicht aus der Realität. Trotzdem: ein Hornissennest direkt am Hauseingang oder Kinderzimmerfenster siedeln wir gerne um." } },
+    { "@type": "Question", "name": "Bekommt ihr wirklich jedes Nest weg?", "acceptedAnswer": { "@type": "Answer", "text": "In den allermeisten Fällen ja — auch in Rolladenkästen, Dachstühlen, Erdlöchern oder schwer erreichbaren Stellen. In den seltenen Fällen, wo es technisch nicht geht, sagen wir es offen und beraten dich kostenlos, was du sonst tun kannst. Das ist Teil unserer Garantie: Wir helfen — oder es kostet nichts." } },
+    { "@type": "Question", "name": "Kommt ihr auch abends oder am Wochenende?", "acceptedAnswer": { "@type": "Answer", "text": "Ja. Wir sind keine 9-bis-17-Uhr-Firma — Wespenpanik passiert selten zur Bürozeit. Ruf einfach an. Wenn wir gerade an einem anderen Nest arbeiten, melden wir uns schnellstmöglich zurück." } },
+    { "@type": "Question", "name": "Wo arbeitet ihr — Servicegebiet?", "acceptedAnswer": { "@type": "Answer", "text": "Die ganze Grenzregion: In Dänemark Sønderjylland von Rømø an der Westküste bis zur Ostküste. In Deutschland das nördliche Schleswig-Holstein — Schleswig-Flensburg und Nordfriesland (Flensburg bis Sylt) und bis runter nach Eckernförde. Im näheren Umkreis kommen wir meistens spontan; weiter weg stellen wir oft eine Tour mit mehreren Einsätzen zusammen." } },
+    { "@type": "Question", "name": "Was passiert mit dem Nest nach der Umsiedlung?", "acceptedAnswer": { "@type": "Answer", "text": "Wir bringen es an einen geeigneten neuen Standort, weit weg von Menschen — Hornissen typisch in Nistkästen an Bäumen, Hummeln an einen geschützten Erdplatz, Wespen ähnlich. Das Volk hat dort die Chance, seinen Jahreszyklus normal zu beenden. Im Spätherbst stirbt der Staat ohnehin von selbst ab — nur die jungen Königinnen überwintern und gründen im nächsten Jahr neue Völker." } }
+  ]
+}
+</script>
 </head>
 <body id="top">
+
+<a class="skip-link" href="#main">
+  <span data-de>Zum Inhalt springen</span><span data-da>Spring til indhold</span><span data-en>Skip to content</span>
+</a>
 
 <!-- HEADER -->
 <header>
   <div class="header-inner">
-    <a class="logo" href="#top">
-      <img src="images/logo-wespe.png" alt="Wespen-Symbol" class="logo-icon">
+    <a class="logo" href="#top" aria-label="Die Wespenexperten – Hvepseeksperterne – Startseite">
+      <img src="images/logo-wespe.png" alt="Wespen-Symbol" class="logo-icon" width="211" height="122" decoding="async">
       <span data-de>Die <span class="accent">Wespen</span>experten</span>
       <span data-da>Hvepse<span class="accent">eksperterne</span></span>
       <span data-en>The <span class="accent">Wasp</span> Experts</span>
@@ -618,6 +788,8 @@ footer a:hover { color: var(--accent); }
 </header>
 <div class="nav-backdrop" id="nav-backdrop" onclick="closeNav()"></div>
 
+<main id="main">
+
 <!-- HERO -->
 <section class="hero">
   <div class="container">
@@ -634,20 +806,35 @@ footer a:hover { color: var(--accent); }
           <span data-en>Relocation, education and — only in emergencies — professional control. Since 1992 in Northern Germany, and now also in Southern Denmark.</span>
         </p>
         <div class="ctas">
-          <a class="btn btn-primary" href="tel:+491739316539">📞 +49 173 9316539 (DE)</a>
-          <a class="btn btn-whatsapp" href="https://wa.me/491739316539" data-de>💬 WhatsApp (DE)</a>
-          <a class="btn btn-whatsapp" href="https://wa.me/491739316539" data-en>💬 WhatsApp (DE)</a>
-          <a class="btn btn-primary" href="tel:+4560463053">📞 +45 60 46 30 53 (DK)</a>
-          <a class="btn btn-sms" href="sms:+4560463053" data-da>💬 SMS (DK)</a>
-          <a class="btn btn-sms" href="sms:+4560463053" data-en>💬 SMS (DK)</a>
+          <a class="btn btn-primary" href="tel:+491739316539">
+            <span aria-hidden="true">📞</span>
+            <span data-de>Anrufen DE · +49 173 9316539</span>
+            <span data-da>Ring DE · +49 173 9316539</span>
+            <span data-en>Call DE · +49 173 9316539</span>
+          </a>
+          <a class="btn btn-whatsapp" href="https://wa.me/491739316539" aria-label="WhatsApp Deutschland">
+            <span aria-hidden="true">💬</span> WhatsApp (DE)
+          </a>
+          <a class="btn btn-primary" href="tel:+4560463053">
+            <span aria-hidden="true">📞</span>
+            <span data-de>Anrufen DK · +45 60 46 30 53</span>
+            <span data-da>Ring DK · +45 60 46 30 53</span>
+            <span data-en>Call DK · +45 60 46 30 53</span>
+          </a>
+          <a class="btn btn-sms" href="sms:+4560463053" aria-label="SMS Danmark">
+            <span aria-hidden="true">💬</span> SMS (DK)
+          </a>
         </div>
+        <p class="trust-row">
+          <span data-de>✓ Seit 1992 erfahren&nbsp;&nbsp; ✓ Garantie&nbsp;&nbsp; ✓ Familienbetrieb</span>
+          <span data-da>✓ Erfaren siden 1992&nbsp;&nbsp; ✓ Garanti&nbsp;&nbsp; ✓ Familiefirma</span>
+          <span data-en>✓ Experienced since 1992&nbsp;&nbsp; ✓ Guarantee&nbsp;&nbsp; ✓ Family business</span>
+        </p>
       </div>
       <div>
-        <div class="hero-image" id="hero-image">
-          <span data-de>[Skizze einfügen: images/juergen-skizze.jpg]</span>
-          <span data-da>[Skizze indsæt: images/juergen-skizze.jpg]</span>
-          <span data-en>[Insert sketch: images/juergen-skizze.jpg]</span>
-        </div>
+        <img class="hero-image" id="hero-image" src="images/juergen-skizze.jpg"
+             alt="Bleistift-Skizze von Jürgen Hanika, Gründer der Wespenexperten"
+             width="826" height="1040" loading="eager" fetchpriority="high" decoding="async">
         <div class="hero-caption">
           <span class="hero-name">Jürgen Hanika</span>
           <span class="hero-credit">© Cristina Gurrea Hernández</span>
@@ -665,10 +852,12 @@ footer a:hover { color: var(--accent); }
 </div>
 
 <!-- BIO -->
-<section class="block" id="ueber-juergen" style="background: #FFFCF7;">
+<section class="block bg-cream" id="ueber-juergen">
   <div class="container">
     <div class="bio-grid">
-      <div class="bio-photo" id="bio-photo">JH</div>
+      <img class="bio-photo" id="bio-photo" src="images/juergen-foto.jpg"
+           alt="Porträtfoto von Jürgen Hanika, Gründer der Wespenexperten"
+           width="825" height="1100" loading="lazy" decoding="async">
       <div class="bio-text">
         <h2>
           <span data-de>Ich bin Jürgen Hanika!</span>
@@ -709,7 +898,7 @@ footer a:hover { color: var(--accent); }
     <div class="services-grid">
 
       <div class="service-card">
-        <div class="service-img" style="background-image: url('images/wespe.jpg');"></div>
+        <img class="service-img" src="images/wespe.jpg" alt="Wespe am Nest" width="266" height="204" loading="lazy" decoding="async">
         <h3 data-de>Wespen</h3>
         <h3 data-da>Hvepse</h3>
         <h3 data-en>Wasps</h3>
@@ -724,7 +913,7 @@ footer a:hover { color: var(--accent); }
       </div>
 
       <div class="service-card">
-        <div class="service-img" style="background-image: url('images/hornisse.jpg');"></div>
+        <img class="service-img" src="images/hornisse.jpg" alt="Hornisse aus der Nähe" width="1050" height="1400" loading="lazy" decoding="async">
         <h3 data-de>Hornissen</h3>
         <h3 data-da>Gedehamse</h3>
         <h3 data-en>Hornets</h3>
@@ -739,7 +928,7 @@ footer a:hover { color: var(--accent); }
       </div>
 
       <div class="service-card">
-        <div class="service-img" style="background-image: url('images/hummel.jpg');"></div>
+        <img class="service-img" src="images/hummel.jpg" alt="Hummel auf einer Blüte" width="607" height="356" loading="lazy" decoding="async">
         <h3 data-de>Hummeln</h3>
         <h3 data-da>Humlebier</h3>
         <h3 data-en>Bumblebees</h3>
@@ -794,7 +983,7 @@ footer a:hover { color: var(--accent); }
 </section>
 
 <!-- GALERIE -->
-<section class="block" style="background: #FFFCF7;">
+<section class="block bg-cream">
   <div class="container">
     <h2>
       <span data-de>Der Anfang: Eine Königin baut allein.</span>
@@ -808,7 +997,7 @@ footer a:hover { color: var(--accent); }
     </p>
     <div class="gallery-grid">
       <div class="gallery-item">
-        <div class="img-wrap" id="wespe-1">[wespe-1.jpg]</div>
+        <img class="img-wrap" id="wespe-1" src="images/wespe-1.jpg" alt="Frühjahr: eine einzelne Königin startet das Nest" width="330" height="329" loading="lazy" decoding="async">
         <div class="caption">
           <span data-de>Frühjahr: Eine einzelne Königin startet das Nest — die ersten Wabenzellen entstehen, aus zerkautem Holz.</span>
           <span data-da>Forår: En enkelt dronning starter reden — de første celler bygges, af tygget træ.</span>
@@ -816,7 +1005,7 @@ footer a:hover { color: var(--accent); }
         </div>
       </div>
       <div class="gallery-item">
-        <div class="img-wrap" id="wespe-2">[wespe-2.jpg]</div>
+        <img class="img-wrap" id="wespe-2" src="images/wespe-2.jpg" alt="Königin baut die schützende Hülle um das Nest" width="431" height="360" loading="lazy" decoding="async">
         <div class="caption">
           <span data-de>Um die Waben baut sie eine schützende Hülle — alles allein, bevor die erste Arbeiterin geschlüpft ist.</span>
           <span data-da>Omkring cellerne bygger hun en beskyttende skal — alt sammen alene, før den første arbejder klækker.</span>
@@ -824,7 +1013,7 @@ footer a:hover { color: var(--accent); }
         </div>
       </div>
       <div class="gallery-item">
-        <div class="img-wrap" id="wespe-3">[wespe-3.jpg]</div>
+        <img class="img-wrap" id="wespe-3" src="images/wespe-3.jpg" alt="Königin legt im Nest die ersten Eier und pflegt die Larven" width="397" height="365" loading="lazy" decoding="async">
         <div class="caption">
           <span data-de>Geschützt im Inneren legt sie die ersten Eier ab und kümmert sich um die Larven.</span>
           <span data-da>Beskyttet i det indre lægger hun de første æg og passer på larverne.</span>
@@ -832,7 +1021,7 @@ footer a:hover { color: var(--accent); }
         </div>
       </div>
       <div class="gallery-item">
-        <div class="img-wrap" id="wespe-4">[wespe-4.jpg]</div>
+        <img class="img-wrap" id="wespe-4" src="images/wespe-4.jpg" alt="Kleines Nest, bevor die ersten Arbeiterinnen schlüpfen" width="517" height="400" loading="lazy" decoding="async">
         <div class="caption">
           <span data-de>So klein ist ein Nest in dieser Phase noch. Sobald die ersten Arbeiterinnen schlüpfen, wächst es binnen Wochen auf ein Vielfaches dieser Größe.</span>
           <span data-da>Så lille er en rede stadig på dette stadie. Når de første arbejdere klækker, vokser den i løbet af uger til mange gange denne størrelse.</span>
@@ -1163,7 +1352,7 @@ footer a:hover { color: var(--accent); }
       <span data-en>Pay with MobilePay</span>
     </h2>
     <div class="pay-card">
-      <img class="pay-qr" src="images/mobilepay-qr-logo.png" alt="MobilePay QR-Code">
+      <img class="pay-qr" src="images/mobilepay-qr-logo.png" alt="MobilePay QR-Code zum Bezahlen" width="200" height="200" loading="lazy" decoding="async">
       <div class="pay-info">
         <p data-de>Du kannst bequem mit <strong>MobilePay</strong> bezahlen — der gängigen Zahlungsmethode in Dänemark. Scanne den QR-Code mit deinem Handy oder tippe auf den Button, dann öffnet sich die MobilePay-App direkt.</p>
         <p data-da>Du kan nemt betale med <strong>MobilePay</strong> — den foretrukne betalingsmåde i Danmark. Scan QR-koden med din mobil eller tryk på knappen, så åbner MobilePay-appen automatisk.</p>
@@ -1184,6 +1373,8 @@ footer a:hover { color: var(--accent); }
     </div>
   </div>
 </section>
+
+</main>
 
 <!-- FOOTER -->
 <footer>
@@ -1235,7 +1426,7 @@ footer a:hover { color: var(--accent); }
 
 <!-- IMPRESSUM -->
 <section id="impressum" class="legal">
-  <div class="container" style="max-width: 800px;">
+  <div class="container container-narrow">
     <div data-de>
       <h2>Impressum</h2>
       <p>Angaben gemäß § 5 DDG (Digitale-Dienste-Gesetz):</p>
@@ -1289,7 +1480,7 @@ footer a:hover { color: var(--accent); }
 
 <!-- DATENSCHUTZ -->
 <section id="datenschutz" class="legal" style="background: #EBE4D4;">
-  <div class="container" style="max-width: 800px;">
+  <div class="container container-narrow">
     <div data-de>
       <h2>Datenschutzerklärung</h2>
       <p>Diese Webseite verarbeitet keine personenbezogenen Daten aktiv. Es werden keine Cookies gesetzt, kein Tracking durchgeführt, und es gibt keine Kontaktformulare.</p>
@@ -1332,21 +1523,47 @@ footer a:hover { color: var(--accent); }
 </section>
 
 <script>
-function setLang(lang) {
-  document.documentElement.lang = lang;
-  var titles = {
-    de: 'Die Wespenexperten — Wespen, Hornissen, Hummeln in DE & DK',
-    da: 'Hvepseeksperterne — Hvepse, gedehamse, humlebier i DK & DE',
-    en: 'The Wasp Experts — Wasps, Hornets, Bumblebees in DE & DK'
-  };
-  document.title = titles[lang] || titles.de;
-  try { localStorage.setItem('lang', lang); } catch(e) {}
+// === Sprache (DE / DA / EN) ===
+// Die aktive Sprache wird bereits im <head> auf <html lang="…"> gesetzt
+// (verhindert kurzes Aufblitzen aller Sprachen). Hier ziehen wir nur
+// Titel, Meta-Description, Speicherung und URL nach.
+var I18N = {
+  de: {
+    title: 'Die Wespenexperten — Wespen, Hornissen, Hummeln in DE & DK',
+    desc: 'Wespen, Hornissen & Hummeln in Schleswig-Holstein, Hamburg & Südjütland – umgesiedelt statt getötet. Festpreis 160 € / 1.250 DKK. Familienbetrieb seit 1992.'
+  },
+  da: {
+    title: 'Hvepseeksperterne — Hvepse, gedehamse, humlebier i DK & DE',
+    desc: 'Hvepse, gedehamse & humlebier i Sønderjylland, Slesvig-Holsten & Hamborg – flyttet, ikke dræbt. Fast pris 1.250 DKK / 160 €. Familiefirma siden 1992.'
+  },
+  en: {
+    title: 'The Wasp Experts — Wasps, Hornets, Bumblebees in DE & DK',
+    desc: 'Wasps, hornets & bumblebees in Schleswig-Holstein, Hamburg & Southern Denmark – relocated, not killed. Fixed price 160 € / 1,250 DKK. Family business since 1992.'
+  }
+};
+var descEl = document.querySelector('meta[name="description"]');
+function applyMeta(lang) {
+  var t = I18N[lang] || I18N.de;
+  document.title = t.title;
+  if (descEl) descEl.setAttribute('content', t.desc);
 }
+function setLang(lang) {
+  if (!I18N[lang]) lang = 'de';
+  document.documentElement.lang = lang;
+  applyMeta(lang);
+  try { localStorage.setItem('lang', lang); } catch (e) {}
+  try {
+    var u = new URL(window.location.href);
+    u.searchParams.set('lang', lang);
+    window.history.replaceState(null, '', u);
+  } catch (e) {}
+}
+// Titel/Description an die im <head> gewählte Sprache angleichen
+applyMeta(document.documentElement.lang || 'de');
 
-// Mobile-Navigation (Hamburger)
+// === Mobile-Navigation (Hamburger) ===
 function toggleNav() {
-  const open = document.getElementById('nav').classList.contains('open');
-  open ? closeNav() : openNav();
+  document.getElementById('nav').classList.contains('open') ? closeNav() : openNav();
 }
 function openNav() {
   document.getElementById('nav').classList.add('open');
@@ -1361,43 +1578,21 @@ function closeNav() {
   document.body.style.overflow = '';
 }
 // Mit Escape schließen
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNav(); });
+document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeNav(); });
 
-// Sprache beim Laden festlegen: zuvor gewählte Sprache bevorzugen,
-// sonst automatisch die Sprache des Besuchers (Browser/Gerät) erkennen.
-try {
-  const saved = localStorage.getItem('lang');
-  if (saved === 'da' || saved === 'de' || saved === 'en') {
-    setLang(saved);
-  } else {
-    const pref = ((navigator.languages && navigator.languages[0]) || navigator.language || 'de').toLowerCase();
-    if (pref.startsWith('da')) setLang('da');
-    else if (pref.startsWith('de')) setLang('de');
-    else setLang('en');
-  }
-} catch(e) {}
+// === FAQ: aria-expanded synchron zum Auf-/Zuklappen halten ===
+document.querySelectorAll('.faq-item').forEach(function (item) {
+  var s = item.querySelector('summary');
+  if (!s) return;
+  s.setAttribute('aria-expanded', item.open ? 'true' : 'false');
+  item.addEventListener('toggle', function () {
+    s.setAttribute('aria-expanded', item.open ? 'true' : 'false');
+  });
+});
 
-// Jahr im Footer (alle Sprachen)
-const y = new Date().getFullYear();
-document.querySelectorAll('.yr').forEach(el => el.textContent = y);
-
-// Bilder laden, falls vorhanden — sonst Placeholder
-function tryLoadImage(elementId, src) {
-  const el = document.getElementById(elementId);
-  if (!el) return;
-  const img = new Image();
-  img.onload = () => {
-    el.style.backgroundImage = `url('${src}')`;
-    el.innerHTML = '';
-  };
-  img.src = src;
-}
-tryLoadImage('hero-image', 'images/juergen-skizze.jpg');
-tryLoadImage('bio-photo', 'images/juergen-foto.jpg');
-tryLoadImage('wespe-1', 'images/wespe-1.jpg');
-tryLoadImage('wespe-2', 'images/wespe-2.jpg');
-tryLoadImage('wespe-3', 'images/wespe-3.jpg');
-tryLoadImage('wespe-4', 'images/wespe-4.jpg');
+// === Jahr im Footer (alle Sprachen) ===
+var y = new Date().getFullYear();
+document.querySelectorAll('.yr').forEach(function (el) { el.textContent = y; });
 </script>
 
 </body>
