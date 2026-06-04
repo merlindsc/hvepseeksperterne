@@ -626,12 +626,27 @@ footer {
 footer h3 { color: white; margin-bottom: 16px; font-size: 1.1rem; }
 .footer-grid {
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  grid-template-columns: 1.5fr 1fr 1fr;
   gap: 36px;
-  margin-bottom: 40px;
+  margin-bottom: 32px;
 }
 footer a { color: var(--accent); text-decoration: none; }
 footer a:hover { color: #FFFCF7; text-decoration: underline; }
+
+/* Durchgehende Kontakt-Zeile (abgesetzt von den Spalten) */
+.footer-contact {
+  border-top: 1px solid #333;
+  padding-top: 26px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 12px 32px;
+  font-size: 0.98rem;
+}
+.footer-contact .fc-item { white-space: nowrap; }
+.footer-contact .fc-mail { white-space: nowrap; hyphens: none; overflow-wrap: normal; }
 .footer-bottom {
   border-top: 1px solid #333;
   padding-top: 20px;
@@ -1426,14 +1441,6 @@ footer a:hover { color: #FFFCF7; text-decoration: underline; }
         <p style="margin-top: 12px;">CVR: 45785386</p>
       </div>
       <div>
-        <h3 data-de>Kontakt</h3>
-        <h3 data-da>Kontakt</h3>
-        <h3 data-en>Contact</h3>
-        <p>📞 DE: <a href="tel:+491739316539">+49 173 9316539</a></p>
-        <p>📞 DK: <a href="tel:+4560463053">+45 60 46 30 53</a></p>
-        <p>✉️ <a href="mailto:juergenhanika@wespenexperten.eu" data-de>juergenhanika@wespenexperten.eu</a><a href="mailto:juergenhanika@hvepseeksperterne.eu" data-da>juergenhanika@hvepseeksperterne.eu</a><a href="mailto:juergenhanika@wespenexperten.eu" data-en>juergenhanika@wespenexperten.eu</a></p>
-      </div>
-      <div>
         <h3 data-de>Rechtliches</h3>
         <h3 data-da>Juridisk</h3>
         <h3 data-en>Legal</h3>
@@ -1447,6 +1454,11 @@ footer a:hover { color: #FFFCF7; text-decoration: underline; }
         <p><a href="https://www.wespenexperte.de" target="_blank" rel="noopener">Die Wespenexperten</a></p>
         <p><a href="https://die-schaedlingsexperten.de" target="_blank" rel="noopener">Die Schädlingsexperten</a></p>
       </div>
+    </div>
+    <div class="footer-contact">
+      <span class="fc-item">📞 DE: <a href="tel:+491739316539">+49 173 9316539</a></span>
+      <span class="fc-item">📞 DK: <a href="tel:+4560463053">+45 60 46 30 53</a></span>
+      <span class="fc-item">✉️ <a class="fc-mail" href="mailto:juergenhanika@wespenexperten.eu" data-de>juergenhanika@wespenexperten.eu</a><a class="fc-mail" href="mailto:juergenhanika@hvepseeksperterne.eu" data-da>juergenhanika@hvepseeksperterne.eu</a><a class="fc-mail" href="mailto:juergenhanika@wespenexperten.eu" data-en>juergenhanika@wespenexperten.eu</a></span>
     </div>
     <div class="footer-bottom">
       <span data-de>© <span class="yr"></span> Jürgen Hanika · Die Wespenexperten</span>
