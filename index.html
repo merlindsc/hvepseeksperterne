@@ -553,6 +553,82 @@ footer a:hover { color: var(--accent); }
   gap: 12px;
 }
 
+/* Kontaktformular */
+.contact { background: #FFFCF7; padding: 60px 0; }
+.contact-card {
+  max-width: 760px;
+  margin: 24px auto 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: var(--shadow);
+}
+.contact h2 { font-size: 1.8rem; margin-bottom: 12px; }
+.contact p.intro { color: var(--muted); margin-bottom: 24px; max-width: 600px; }
+.contact-form .grid { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
+.contact-form .full { grid-column: 1 / -1; }
+@media (max-width: 640px) { .contact-form .grid { grid-template-columns: 1fr; } }
+.contact-form label { display: block; font-weight: 600; font-size: 0.95rem; margin: 4px 0 6px; color: #2A2419; }
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form input[type="tel"],
+.contact-form textarea {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--text);
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.contact-form input:focus, .contact-form textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(240, 200, 8, 0.15);
+}
+.contact-form textarea { min-height: 120px; resize: vertical; }
+.contact-form .type-switch { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+.contact-form .type-switch label {
+  cursor: pointer; font-weight: 600;
+  padding: 10px 16px; border-radius: 999px;
+  border: 1px solid var(--border); background: #FFFCF7;
+  color: #2A2419; display: flex; align-items: center; gap: 6px;
+}
+.contact-form .type-switch input { display: none; }
+.contact-form .type-switch input:checked + span {
+  background: var(--accent); color: #2A2419;
+  padding: 10px 16px; border-radius: 999px;
+  margin: -10px -16px; border: 1px solid var(--accent-dark);
+}
+.contact-form .checkbox {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 12px 14px; margin-top: 12px;
+  background: #FFFCF7; border: 1px solid var(--border); border-radius: 10px;
+  font-size: 0.95rem;
+}
+.contact-form .checkbox input { margin-top: 3px; accent-color: var(--accent); }
+.contact-form .checkbox label { font-weight: 500; cursor: pointer; }
+.contact-form button[type="submit"] {
+  margin-top: 20px; width: 100%;
+  padding: 14px 20px; border: none; border-radius: 10px;
+  background: var(--accent); color: #2A2419;
+  font-family: inherit; font-weight: 700; font-size: 1.05rem;
+  cursor: pointer; transition: background 0.15s, transform 0.1s;
+}
+.contact-form button[type="submit"]:hover { background: var(--accent-dark); color: white; }
+.contact-form button[type="submit"]:active { transform: scale(0.98); }
+.contact-form .info {
+  background: #FFF8E0; border: 1px solid #F0E0A0;
+  color: #5A4A00; padding: 10px 14px;
+  border-radius: 10px; font-size: 0.92rem; margin-bottom: 14px;
+}
+.contact-form .collapse { overflow: hidden; max-height: 0; transition: max-height 0.25s ease; }
+.contact-form .collapse.open { max-height: 1000px; }
+.honeypot { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+
 /* Rechtliches (Impressum, Datenschutz) */
 .legal {
   background: #F5F0E5;
@@ -1185,6 +1261,213 @@ footer a:hover { color: var(--accent); }
   </div>
 </section>
 
+<!-- KONTAKT-FORMULAR -->
+<section class="contact" id="kontakt">
+  <div class="container" style="max-width: 800px;">
+    <h2 data-de>Kontakt & Auftrag</h2>
+    <h2 data-da>Kontakt & Bestilling</h2>
+    <h2 data-en>Contact & Booking</h2>
+
+    <p class="intro" data-de>Schreib uns kurz, was los ist — wir melden uns in der Regel innerhalb von <strong>24 Stunden</strong> zurück.</p>
+    <p class="intro" data-da>Skriv kort hvad der er på færde — vi vender som regel tilbage inden for <strong>24 timer</strong>.</p>
+    <p class="intro" data-en>Tell us briefly what's going on — we usually get back to you within <strong>24 hours</strong>.</p>
+
+    <div class="contact-card">
+      <form id="wespen-form" class="contact-form" action="https://wespenhamburg.de/kontakt-relay.php" method="post" novalidate>
+        <!-- Marke: DW = Die Wespenexperten (Vaters Marke) -->
+        <input type="hidden" name="brand_code" value="DW">
+        <!-- Quellen-Tracking — source_url wird per JS auf window.location.href gesetzt.
+             Die PHP-Relay liest das Body-Feld (statt HTTP_REFERER) damit Tracking
+             auch bei Referrer-Policy=no-referrer funktioniert. -->
+        <input type="hidden" name="source_url" id="source_url" value="">
+        <!-- Land — wird per JS aus html[lang] abgeleitet -->
+        <input type="hidden" name="land" id="land" value="DE">
+
+        <!-- Typ-Umschalter -->
+        <div class="type-switch">
+          <label>
+            <input type="radio" name="form_type" value="auftrag" checked>
+            <span data-de>Auftragserteilung</span>
+            <span data-da>Bestilling</span>
+            <span data-en>Place an order</span>
+          </label>
+          <label>
+            <input type="radio" name="form_type" value="kontakt">
+            <span data-de>Kontaktaufnahme</span>
+            <span data-da>Kontakt</span>
+            <span data-en>Contact only</span>
+          </label>
+        </div>
+
+        <div id="auftrag-hinweis" class="info">
+          <span data-de>Wir melden uns vor dem Einsatz telefonisch oder per E-Mail — wir legen <strong>nicht ohne Rücksprache</strong> los. Stornierung jederzeit bis Einsatzbeginn möglich.</span>
+          <span data-da>Vi kontakter dig telefonisk eller via e-mail før indsatsen — vi går <strong>ikke i gang uden aftale</strong>. Annullering muligt indtil indsatsstart.</span>
+          <span data-en>We always reach out by phone or email before the visit — we <strong>never start without confirmation</strong>. Cancellation possible anytime until the visit begins.</span>
+        </div>
+
+        <div class="grid">
+          <div>
+            <label for="vorname" data-de>Vorname*</label>
+            <label for="vorname" data-da>Fornavn*</label>
+            <label for="vorname" data-en>First name*</label>
+            <input type="text" id="vorname" name="vorname" required autocomplete="given-name">
+          </div>
+          <div>
+            <label for="nachname" data-de>Nachname*</label>
+            <label for="nachname" data-da>Efternavn*</label>
+            <label for="nachname" data-en>Last name*</label>
+            <input type="text" id="nachname" name="nachname" required autocomplete="family-name">
+          </div>
+          <div class="full">
+            <label for="email" data-de>E-Mail-Adresse*</label>
+            <label for="email" data-da>E-mailadresse*</label>
+            <label for="email" data-en>Email address*</label>
+            <input type="email" id="email" name="email" required autocomplete="email">
+          </div>
+          <div class="full">
+            <label for="telefon" data-de>Telefon*</label>
+            <label for="telefon" data-da>Telefon*</label>
+            <label for="telefon" data-en>Phone*</label>
+            <input type="tel" id="telefon" name="telefon" required autocomplete="tel" placeholder="+45 … / +49 …">
+          </div>
+        </div>
+
+        <h3 style="margin: 20px 0 8px; font-size: 1.1rem;">
+          <span data-de>Einsatzort</span>
+          <span data-da>Indsatssted</span>
+          <span data-en>Site address</span>
+        </h3>
+        <div class="grid">
+          <div class="full">
+            <label for="eo_strasse" data-de>Straße<span class="eo-star">*</span></label>
+            <label for="eo_strasse" data-da>Vej<span class="eo-star">*</span></label>
+            <label for="eo_strasse" data-en>Street<span class="eo-star">*</span></label>
+            <input type="text" id="eo_strasse" name="eo_strasse" autocomplete="address-line1">
+          </div>
+          <div>
+            <label for="eo_hausnummer" data-de>Hausnummer<span class="eo-star">*</span></label>
+            <label for="eo_hausnummer" data-da>Husnummer<span class="eo-star">*</span></label>
+            <label for="eo_hausnummer" data-en>Number<span class="eo-star">*</span></label>
+            <input type="text" id="eo_hausnummer" name="eo_hausnummer">
+          </div>
+          <div>
+            <label for="eo_zusatz" data-de>Adresszusatz</label>
+            <label for="eo_zusatz" data-da>Adressetillæg</label>
+            <label for="eo_zusatz" data-en>Address details</label>
+            <input type="text" id="eo_zusatz" name="eo_zusatz">
+          </div>
+          <div>
+            <label for="eo_plz" data-de>PLZ<span class="eo-star">*</span></label>
+            <label for="eo_plz" data-da>Postnr.<span class="eo-star">*</span></label>
+            <label for="eo_plz" data-en>Postcode<span class="eo-star">*</span></label>
+            <input type="text" id="eo_plz" name="eo_plz" inputmode="numeric">
+          </div>
+          <div>
+            <label for="eo_stadt" data-de>Ort<span class="eo-star">*</span></label>
+            <label for="eo_stadt" data-da>By<span class="eo-star">*</span></label>
+            <label for="eo_stadt" data-en>City<span class="eo-star">*</span></label>
+            <input type="text" id="eo_stadt" name="eo_stadt" autocomplete="address-level2">
+          </div>
+        </div>
+
+        <div class="checkbox" id="same-wrap" style="margin-top: 12px;">
+          <input type="checkbox" id="same_as_einsatzort" name="same_as_einsatzort" checked>
+          <label for="same_as_einsatzort">
+            <span data-de>Rechnungsadresse entspricht dem Einsatzort</span>
+            <span data-da>Faktureringsadresse er den samme som indsatsstedet</span>
+            <span data-en>Billing address same as site address</span>
+          </label>
+        </div>
+
+        <div id="rg_collapse" class="collapse">
+          <h3 style="margin: 20px 0 8px; font-size: 1.1rem;">
+            <span data-de>Rechnungsadresse (falls abweichend)</span>
+            <span data-da>Faktureringsadresse (hvis afvigende)</span>
+            <span data-en>Billing address (if different)</span>
+          </h3>
+          <div class="grid">
+            <div class="full">
+              <label for="rg_name" data-de>Name des Rechnungsempfängers*</label>
+              <label for="rg_name" data-da>Modtagernavn*</label>
+              <label for="rg_name" data-en>Billing recipient name*</label>
+              <input type="text" id="rg_name" name="rg_name">
+            </div>
+            <div class="full">
+              <label for="rg_strasse" data-de>Straße*</label>
+              <label for="rg_strasse" data-da>Vej*</label>
+              <label for="rg_strasse" data-en>Street*</label>
+              <input type="text" id="rg_strasse" name="rg_strasse">
+            </div>
+            <div>
+              <label for="rg_hausnummer" data-de>Hausnummer*</label>
+              <label for="rg_hausnummer" data-da>Husnummer*</label>
+              <label for="rg_hausnummer" data-en>Number*</label>
+              <input type="text" id="rg_hausnummer" name="rg_hausnummer">
+            </div>
+            <div>
+              <label for="rg_zusatz" data-de>Adresszusatz</label>
+              <label for="rg_zusatz" data-da>Adressetillæg</label>
+              <label for="rg_zusatz" data-en>Address details</label>
+              <input type="text" id="rg_zusatz" name="rg_zusatz">
+            </div>
+            <div>
+              <label for="rg_plz" data-de>PLZ*</label>
+              <label for="rg_plz" data-da>Postnr.*</label>
+              <label for="rg_plz" data-en>Postcode*</label>
+              <input type="text" id="rg_plz" name="rg_plz" inputmode="numeric">
+            </div>
+            <div>
+              <label for="rg_stadt" data-de>Ort*</label>
+              <label for="rg_stadt" data-da>By*</label>
+              <label for="rg_stadt" data-en>City*</label>
+              <input type="text" id="rg_stadt" name="rg_stadt">
+            </div>
+            <div class="full">
+              <label for="rg_email" data-de>E-Mail für Rechnung</label>
+              <label for="rg_email" data-da>E-mail til faktura</label>
+              <label for="rg_email" data-en>Email for invoice</label>
+              <input type="email" id="rg_email" name="rg_email">
+            </div>
+          </div>
+        </div>
+
+        <h3 style="margin: 20px 0 8px; font-size: 1.1rem;">
+          <span data-de>Beschreibung</span>
+          <span data-da>Beskrivelse</span>
+          <span data-en>Description</span>
+        </h3>
+        <div class="grid full">
+          <textarea id="beschreibung" name="beschreibung" rows="5"
+            placeholder="z. B. Wespennest unter dem Dachüberstand, ca. 5 m Höhe / fx hvepserede under tagudhænget, ca. 5 m / e.g. wasp nest under the roof eaves, approx. 5 m"></textarea>
+        </div>
+
+        <div class="checkbox" style="margin-top: 14px;">
+          <input type="checkbox" id="dsgvo" name="dsgvo" required>
+          <label for="dsgvo">
+            <span data-de>Ich akzeptiere die <a href="#datenschutz">Datenschutzerklärung</a>*</span>
+            <span data-da>Jeg accepterer <a href="#datenschutz">privatlivspolitikken</a>*</span>
+            <span data-en>I accept the <a href="#datenschutz">privacy policy</a>*</span>
+          </label>
+        </div>
+
+        <!-- Honeypots gegen Spam-Bots -->
+        <div class="honeypot" aria-hidden="true">
+          <label for="website">Leave empty</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+          <label for="fax">Leave empty</label>
+          <input type="text" id="fax" name="fax" tabindex="-1" autocomplete="off">
+        </div>
+
+        <button type="submit">
+          <span data-de>Anfrage senden</span>
+          <span data-da>Send forespørgsel</span>
+          <span data-en>Send request</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer>
   <div class="container">
@@ -1292,10 +1575,12 @@ footer a:hover { color: var(--accent); }
   <div class="container" style="max-width: 800px;">
     <div data-de>
       <h2>Datenschutzerklärung</h2>
-      <p>Diese Webseite verarbeitet keine personenbezogenen Daten aktiv. Es werden keine Cookies gesetzt, kein Tracking durchgeführt, und es gibt keine Kontaktformulare.</p>
+      <p>Diese Webseite setzt keine Cookies und führt kein Tracking durch. Personenbezogene Daten werden nur erhoben, wenn du das Kontaktformular nutzt oder uns direkt kontaktierst.</p>
       <h3>Server-Logfiles</h3>
       <p>Wie bei jedem Webseiten-Aufruf erfasst der Webserver technisch notwendige Daten (IP-Adresse, Datum/Uhrzeit, abgerufene Seite, Browser-Typ). Diese Daten werden nicht mit anderen Daten zusammengeführt und nach kurzer Zeit gelöscht. Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse am sicheren Betrieb der Webseite).</p>
-      <h3>Kontaktaufnahme</h3>
+      <h3>Kontaktformular</h3>
+      <p>Wenn du unser Kontaktformular nutzt, werden die von dir eingegebenen Daten (Name, Telefon, E-Mail, Adresse, Beschreibung) an unseren Auftragsverwaltungs-Dienst „Wespen-Hub" (gehostet bei Hetzner Online GmbH, Deutschland) übermittelt und dort gespeichert. Zusätzlich erstellt der Dienst eine interne Vorgangsnotiz (Trello). Die Daten werden ausschließlich zur Bearbeitung deiner Anfrage genutzt. Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (Vertragsanbahnung).</p>
+      <h3>Kontaktaufnahme per Telefon / E-Mail</h3>
       <p>Wenn du uns per Telefon, WhatsApp, SMS oder E-Mail kontaktierst, werden die übermittelten Daten zur Bearbeitung deiner Anfrage gespeichert. Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (Vertragsanbahnung). Die Daten werden gelöscht, sobald sie für den Zweck nicht mehr erforderlich sind, spätestens nach den gesetzlichen Aufbewahrungsfristen.</p>
       <h3>Deine Rechte</h3>
       <p>Du hast jederzeit das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch. Wende dich dazu an: juergenhanika@wespenexperten.eu</p>
@@ -1305,10 +1590,12 @@ footer a:hover { color: var(--accent); }
 
     <div data-da>
       <h2>Privatlivspolitik</h2>
-      <p>Denne hjemmeside behandler ikke aktivt personoplysninger. Der sættes ingen cookies, der laves ingen tracking, og der findes ingen kontaktformularer.</p>
+      <p>Denne hjemmeside sætter ingen cookies og laver ingen tracking. Personoplysninger indsamles kun, hvis du bruger kontaktformularen eller kontakter os direkte.</p>
       <h3>Server-logfiler</h3>
       <p>Som ved ethvert besøg på en hjemmeside registrerer webserveren teknisk nødvendige data (IP-adresse, dato/tidspunkt, åbnet side, browsertype). Disse data sammenkædes ikke med andre data og slettes efter kort tid. Retsgrundlag: Artikel 6, stk. 1, litra f, GDPR (legitim interesse i sikker drift af hjemmesiden).</p>
-      <h3>Kontakt</h3>
+      <h3>Kontaktformular</h3>
+      <p>Når du bruger vores kontaktformular, overføres dine indtastede oplysninger (navn, telefon, e-mail, adresse, beskrivelse) til vores ordrebehandlingstjeneste „Wespen-Hub" (hostet hos Hetzner Online GmbH, Tyskland) og opbevares der. Derudover oprettes en intern arbejdsnote (Trello). Oplysningerne bruges udelukkende til at behandle din henvendelse. Retsgrundlag: Artikel 6, stk. 1, litra b, GDPR (kontraktforberedelse).</p>
+      <h3>Kontakt via telefon / e-mail</h3>
       <p>Når du kontakter os via telefon, SMS, Messenger eller e-mail, gemmes de oplyste data til behandling af din henvendelse. Retsgrundlag: Artikel 6, stk. 1, litra b, GDPR (kontraktforberedelse). Data slettes, så snart de ikke længere er nødvendige til formålet, senest efter de lovbestemte opbevaringsfrister.</p>
       <h3>Dine rettigheder</h3>
       <p>Du har til enhver tid ret til indsigt, berigtigelse, sletning, begrænsning af behandling, dataportabilitet og indsigelse. Kontakt: juergenhanika@hvepseeksperterne.eu</p>
@@ -1318,10 +1605,12 @@ footer a:hover { color: var(--accent); }
 
     <div data-en>
       <h2>Privacy Policy</h2>
-      <p>This website does not actively process any personal data. No cookies are set, no tracking is carried out, and there are no contact forms.</p>
+      <p>This website does not set any cookies and does not perform any tracking. Personal data is only collected when you use the contact form or contact us directly.</p>
       <h3>Server log files</h3>
       <p>As with every website visit, the web server records technically necessary data (IP address, date/time, page accessed, browser type). This data is not merged with other data and is deleted after a short time. Legal basis: Art. 6(1)(f) GDPR (legitimate interest in the secure operation of the website).</p>
-      <h3>Contacting us</h3>
+      <h3>Contact form</h3>
+      <p>If you use our contact form, the data you submit (name, phone, email, address, description) is transmitted to and stored by our order-management service „Wespen-Hub" (hosted at Hetzner Online GmbH, Germany). The service also creates an internal work note (Trello). The data is used solely to process your request. Legal basis: Art. 6(1)(b) GDPR (pre-contractual measures).</p>
+      <h3>Contact by phone / email</h3>
       <p>If you contact us by phone, WhatsApp, SMS or email, the data you provide is stored to process your request. Legal basis: Art. 6(1)(b) GDPR (pre-contractual measures). The data is deleted as soon as it is no longer needed for the purpose, at the latest after the statutory retention periods.</p>
       <h3>Your rights</h3>
       <p>You have the right at any time to access, rectification, erasure, restriction of processing, data portability and objection. To exercise these, contact: juergenhanika@wespenexperten.eu</p>
@@ -1398,6 +1687,95 @@ tryLoadImage('wespe-1', 'images/wespe-1.jpg');
 tryLoadImage('wespe-2', 'images/wespe-2.jpg');
 tryLoadImage('wespe-3', 'images/wespe-3.jpg');
 tryLoadImage('wespe-4', 'images/wespe-4.jpg');
+
+/* ===== Kontaktformular ===== */
+(function(){
+  const form = document.getElementById('wespen-form');
+  if (!form) return;
+
+  // source_url + land setzen
+  const srcUrl = document.getElementById('source_url');
+  if (srcUrl) srcUrl.value = window.location.href;
+  const land = document.getElementById('land');
+  function syncLand() {
+    if (!land) return;
+    const lang = document.documentElement.lang;
+    // DA -> DK, sonst DE (auch fuer EN, weil Vater haupts. DE-Kunden hat)
+    land.value = (lang === 'da') ? 'DK' : 'DE';
+  }
+  syncLand();
+  // Beim Sprachen-Switch (sofern vorhanden) das Land mit umstellen
+  document.querySelectorAll('.lang-switch button[data-set]').forEach(btn => {
+    btn.addEventListener('click', () => setTimeout(syncLand, 50));
+  });
+
+  // PLZ-Filter (nur Ziffern)
+  ['eo_plz','rg_plz'].forEach(id=>{
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('input', e => {
+      e.target.value = e.target.value.replace(/\D+/g,'').slice(0,10);
+    });
+  });
+
+  // Auftrag/Kontakt umschalten: Pflichtfelder + Hinweise togglen
+  const typeRadios = [...form.querySelectorAll('input[name="form_type"]')];
+  const auftragHinweis = document.getElementById('auftrag-hinweis');
+  const sameWrap  = document.getElementById('same-wrap');
+  const same      = document.getElementById('same_as_einsatzort');
+  const rgCollapse= document.getElementById('rg_collapse');
+  const eoStars   = document.querySelectorAll('.eo-star');
+  const eoFields  = ['eo_strasse','eo_hausnummer','eo_plz','eo_stadt'];
+  const rgFields  = ['rg_name','rg_strasse','rg_hausnummer','rg_plz','rg_stadt'];
+
+  function setRequired(ids, on){
+    ids.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (on) el.setAttribute('required','required');
+      else el.removeAttribute('required');
+    });
+  }
+  function showStars(show){
+    eoStars.forEach(n => n.style.display = show ? 'inline' : 'none');
+  }
+  function openCollapse(el){ el.classList.add('open'); el.style.maxHeight = el.scrollHeight + 'px'; }
+  function closeCollapse(el){ el.style.maxHeight = el.scrollHeight + 'px'; requestAnimationFrame(()=>{ el.classList.remove('open'); el.style.maxHeight = '0px'; }); }
+  function isOrder(){ return (form.form_type.value || 'auftrag') === 'auftrag'; }
+
+  function toggleRG(){
+    if (same.checked){ closeCollapse(rgCollapse); setRequired(rgFields, false); }
+    else { openCollapse(rgCollapse); setRequired(rgFields, true); }
+  }
+  function refresh(){
+    if (isOrder()){
+      setRequired(eoFields, true);
+      showStars(true);
+      sameWrap.style.display = '';
+      same.checked = true;
+      toggleRG();
+      auftragHinweis.style.display = '';
+    } else {
+      setRequired(eoFields, false);
+      showStars(false);
+      sameWrap.style.display = 'none';
+      closeCollapse(rgCollapse);
+      setRequired(rgFields, false);
+      auftragHinweis.style.display = 'none';
+    }
+  }
+  typeRadios.forEach(r => r.addEventListener('change', refresh));
+  same.addEventListener('change', toggleRG);
+  refresh();
+
+  // Klassischer HTML-Submit zu wespenhamburg.de/kontakt-relay.php
+  form.addEventListener('submit', function(e){
+    if (!this.checkValidity()){
+      e.preventDefault();
+      this.reportValidity();
+    }
+  });
+})();
 </script>
 
 </body>
