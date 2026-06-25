@@ -152,9 +152,9 @@ header {
 .header-inner {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 24px;
   padding: 16px 24px;
-  max-width: 1100px;
+  max-width: 1240px;
   margin: 0 auto;
 }
 .logo {
@@ -184,6 +184,11 @@ header {
   .lang-switch button { padding: 5px 8px; font-size: 0.75rem; }
 }
 
+/* Logo nur im Desktop-Menübereich einzeilig halten (Handy darf umbrechen) */
+@media (min-width: 1341px) {
+  .logo { white-space: nowrap; flex-shrink: 0; }
+}
+
 .lang-switch { display: flex; gap: 4px; flex-shrink: 0; }
 .lang-switch button {
   background: transparent;
@@ -206,12 +211,12 @@ html[lang="en"] .lang-switch button[data-set="en"] {
 }
 
 /* Navigation */
-.nav { display: flex; align-items: center; gap: 22px; }
+.nav { display: flex; align-items: center; gap: 18px; }
 .nav > a {
   color: var(--text);
   text-decoration: none;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   white-space: nowrap;
 }
 .nav > a:hover { color: var(--accent-text); }
@@ -254,7 +259,7 @@ html[lang="en"] .lang-switch button[data-set="en"] {
 }
 .nav-backdrop.open { display: block; opacity: 1; }
 
-@media (max-width: 1100px) {
+@media (max-width: 1340px) {
   .nav-toggle { display: flex; }
   .nav {
     position: fixed;
