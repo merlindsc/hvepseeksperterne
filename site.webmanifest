@@ -1,0 +1,16 @@
+{
+  "name": "Die Wespenexperten · Hvepseeksperterne",
+  "short_name": "Wespenexperten",
+  "description": "Wespen, Hornissen und Hummeln umsiedeln statt töten — DE & DK, seit 1992.",
+  "lang": "de",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#FBF8F2",
+  "theme_color": "#F0C808",
+  "icons": [
+    { "src": "/images/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/images/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/images/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}
