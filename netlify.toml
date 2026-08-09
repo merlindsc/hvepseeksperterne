@@ -1,0 +1,13 @@
+# Netlify-Konfiguration
+#
+# Wenn das GitHub-Repo mit Netlify verbunden ist, baut Netlify die drei
+# Sprachseiten bei jedem Push selbst neu. Die erzeugten Dateien liegen
+# zusätzlich im Repo, damit auch ein manueller Deploy (Ordner ins Netlify-
+# Dashboard ziehen) sofort funktioniert.
+
+[build]
+  publish = "."
+  command = "node build.js"
+
+[build.environment]
+  NODE_VERSION = "20"

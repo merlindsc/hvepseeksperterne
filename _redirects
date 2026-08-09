@@ -1,0 +1,12 @@
+# Alte Sprachlinks (?lang=…) auf die neuen Sprach-URLs umleiten.
+# So bleiben geteilte Facebook-Posts, QR-Codes und Visitenkarten gültig.
+/                 lang=da    /da/       301!
+/                 lang=en    /en/       301!
+
+# Bequeme Kurzlinks (z. B. für Aushänge oder Anzeigen)
+/dansk                       /da/       301
+/dk                          /da/       301
+/english                     /en/       301
+
+# Die Bauquelle soll nicht als eigene Seite in Google landen
+/src/*                       /          301!
