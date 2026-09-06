@@ -52,6 +52,10 @@ ein automatischer Netlify-Build (`netlify.toml`) als auch ein manueller Deploy
 
 * `META` — Titel, Beschreibung und Open-Graph-Texte je Sprache
 * `ALT` — Bild-Alternativtexte je Sprache
+
+Bilder liegen als WebP (mit JPG-Fallback im `<picture>`) vor; neue Bilder mit
+`ffmpeg -i bild.jpg -c:v libwebp -quality 80 bild.webp` erzeugen. Die Hero-Skizze
+hat zusätzlich einen 3:2-Ausschnitt (`-m-480`, `-m-824`) fürs Handy.
 * `ATTR_I18N` — Texte, die in Attributen stecken (z. B. `placeholder`)
 * `structuredData()` — Firmendaten für Google (Adresse, Telefon, Preise, Gebiet)
 
