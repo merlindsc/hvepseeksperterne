@@ -46,7 +46,9 @@ const META = {
     ogTitle: 'Die Wespenexperten — umsiedeln statt töten',
     ogDesc: 'Wespen, Hornissen und Hummeln in Nordfriesland, Schleswig-Flensburg und Sønderjylland. Festpreis 160 €. Familienbetrieb seit 1992.',
     bizDesc: 'Wespennester, Hornissennester und Hummelnester entfernen und umsiedeln — in Nordfriesland, Schleswig-Flensburg und in Sønderjylland. Festpreis 160 € / 1.250 DKK für ein Standard-Wespennest. Familienbetrieb seit 1992.',
-    offerName: 'Wespennest entfernen oder umsiedeln (Standardnest)'
+    offerName: 'Wespennest entfernen oder umsiedeln (Standardnest)',
+    videoName: 'Hornissen-Umsiedlung in echt — Die Wespenexperten',
+    videoDesc: 'Jürgen Hanika siedelt ein Hornissennest um, statt es zu töten. Ein kurzer Einblick in die Arbeit der Wespenexperten in Sønderjylland und Nordfriesland.'
   },
   da: {
     dir: 'da',
@@ -58,7 +60,9 @@ const META = {
     ogTitle: 'Hvepseeksperterne — vi flytter i stedet for at dræbe',
     ogDesc: 'Fjernelse og flytning af hvepsebo, gedehamsebo og humlebibo i hele Sønderjylland. Fast pris 1.250 kr. Familiefirma siden 1992.',
     bizDesc: 'Fjernelse og flytning af hvepsebo, gedehamsebo og humlebibo i hele Sønderjylland — Tønder, Aabenraa, Sønderborg og Haderslev. Fast pris 1.250 kr. for et almindeligt hvepsebo. Familiefirma siden 1992.',
-    offerName: 'Fjernelse eller flytning af hvepsebo (almindeligt bo)'
+    offerName: 'Fjernelse eller flytning af hvepsebo (almindeligt bo)',
+    videoName: 'Flytning af gedehamse i virkeligheden — Hvepseeksperterne',
+    videoDesc: 'Jürgen Hanika flytter et gedehamsebo i stedet for at dræbe det. Et lille indblik i Hvepseeksperternes arbejde i Sønderjylland og Nordfrisland.'
   },
   en: {
     dir: 'en',
@@ -70,7 +74,9 @@ const META = {
     ogTitle: 'The Wasp Experts — we relocate instead of killing',
     ogDesc: 'Wasp, hornet and bumblebee nests in Sønderjylland, Flensburg and North Frisia. Fixed price €160. Family business since 1992.',
     bizDesc: 'Removal and relocation of wasp, hornet and bumblebee nests in Sønderjylland (Denmark) and northern Schleswig-Holstein (Germany). Fixed price €160 / DKK 1,250 for a standard wasp nest. Family business since 1992.',
-    offerName: 'Wasp nest removal or relocation (standard nest)'
+    offerName: 'Wasp nest removal or relocation (standard nest)',
+    videoName: 'Hornet relocation for real — The Wasp Experts',
+    videoDesc: 'Jürgen Hanika relocates a hornet nest instead of killing it. A short glimpse of The Wasp Experts at work in Sønderjylland and North Frisia.'
   }
 };
 
@@ -133,7 +139,7 @@ const ALT = {
     da: 'MobilePay QR-kode til betaling',
     en: 'MobilePay QR code for payment'
   },
-  'images/hornissen-poster.jpg': {
+  'images/hornissen-poster.webp': {
     de: 'Standbild aus dem Video: Umsiedlung eines Hornissennests',
     da: 'Still fra videoen: flytning af et gedehamsebo',
     en: 'Still from the video: relocating a hornet nest'
@@ -149,8 +155,6 @@ const ATTR_I18N = [
   }],
   ['Menü', { da: 'Menu', en: 'Menu' }],
   ['Rechtliche Informationen', { da: 'Juridiske oplysninger', en: 'Legal information' }],
-  ['WhatsApp Deutschland', { da: 'WhatsApp Tyskland', en: 'WhatsApp Germany' }],
-  ['SMS Danmark', { da: 'SMS Danmark', en: 'SMS Denmark' }],
   ['z. B. Wespennest unter dem Dachüberstand, ca. 5 m Höhe / fx hvepserede under tagudhænget, ca. 5 m / e.g. wasp nest under the roof eaves, approx. 5 m', {
     de: 'z. B. Wespennest unter dem Dachüberstand, ca. 5 m Höhe',
     da: 'f.eks. hvepsebo under tagudhænget, ca. 5 m oppe',
@@ -223,7 +227,11 @@ function keepLanguage(html, keep) {
 
 /** Relative Pfade auf absolute umstellen — /da/ und /en/ liegen tiefer. */
 function absolutiseAssets(html) {
-  return html.replace(/(src|href|poster)="(images|videos)\//g, '$1="/$2/');
+  return html
+    .replace(/(src|href|poster)="(images|videos)\//g, '$1="/$2/')
+    .replace(/srcset="([^"]*)"/g, (_, list) =>
+      `srcset="${list.replace(/(^|,\s*)(images|videos)\//g, '$1/$2/')}"`
+    );
 }
 
 /** Alt-Texte in die Sprache der Seite bringen. */
@@ -426,7 +434,24 @@ function structuredData(lang, pageHtml) {
     mainEntity: faqFromHtml(pageHtml)
   };
 
-  return [business, faq]
+  const video = {
+    '@context': 'https://schema.org',
+    '@type': 'VideoObject',
+    '@id': `${urlFor(lang)}#video`,
+    name: m.videoName,
+    description: m.videoDesc,
+    inLanguage: m.htmlLang,
+    thumbnailUrl: [`${SITE}/images/hornissen-poster.webp`, `${SITE}/images/hornissen-poster.jpg`],
+    contentUrl: `${SITE}/videos/hornissen.mp4`,
+    uploadDate: '2026-06-25',
+    duration: 'PT48S',
+    width: 1280,
+    height: 720,
+    isFamilyFriendly: true,
+    publisher: { '@id': `${SITE}/#business` }
+  };
+
+  return [business, faq, video]
     .map((o) => `<script type="application/ld+json">\n${JSON.stringify(o, null, 2)}\n</script>`)
     .join('\n');
 }

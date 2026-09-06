@@ -10,3 +10,9 @@
 
 # Die Bauquelle soll nicht als eigene Seite in Google landen
 /src/*                       /          301!
+
+# Zweitdomain auf die Hauptdomain buendeln (sonst Duplikat mit eigener URL)
+https://wespenexperten.eu/*      https://hvepseeksperterne.eu/:splat  301!
+https://www.wespenexperten.eu/*  https://hvepseeksperterne.eu/:splat  301!
+http://wespenexperten.eu/*       https://hvepseeksperterne.eu/:splat  301!
+http://www.wespenexperten.eu/*   https://hvepseeksperterne.eu/:splat  301!
